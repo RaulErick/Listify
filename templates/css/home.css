@@ -135,6 +135,15 @@ h2{
         flex-direction: column;
         height: auto;
         padding: 2vw;
+        z-index: 1; /* Mantém o bloco de opções à frente */
+    }
+
+    .bolinhas {
+        transform: translateX(-50%);
+        top: 75%;
+        left: 50%;
+        position: absolute;
+        z-index: 0; /* Coloca as bolinhas atrás na versão mobile */
     }
 
     .acoes:not(:last-child) {
@@ -167,6 +176,13 @@ h2{
 
     .bloco-opcoes {
         top: 75%;
+        z-index: 1; /* Bloco de opções à frente na versão mobile menor */
+    }
+
+    .bolinhas {
+        transform: translateX(-50%);
+        top: 80%; /* Ajuste para manter a posição visual */
+        z-index: 0; /* Bolinhas atrás do bloco */
     }
 
     h1 {
