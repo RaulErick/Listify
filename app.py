@@ -5,19 +5,22 @@ app = Flask(__name__)
 
 # Configurações de conexão ao MySQL
 db_config = {
-    "host": "localhost",  # Substitua pelo seu host
+    "host": "localhost",
     "user": "seu_usuario",  # Substitua pelo seu usuário do MySQL
     "password": "sua_senha",  # Substitua pela sua senha do MySQL
     "database": "nome_do_banco",  # Substitua pelo nome do seu banco de dados
 }
 
 
-# Rota para a página inicial (home.html)
+# Página inicial (home.html)
 @app.route("/", methods=["GET", "POST"])
 def home():
     if request.method == "POST":
+        # Pega o valor digitado no campo de pesquisa
         id_lista = request.form.get("search_text")
-        return redirect(url_for("lista", id_lista=id_lista))
+        if id_lista:
+            # Redireciona para a rota da lista com o ID pesquisado
+            return redirect(url_for("lista", id_lista=id_lista))
     return render_template("home.html")
 
 
@@ -41,11 +44,11 @@ def lista(id_lista):
             return render_template("lista.html", lista=resultado)
         else:
             # Se o id_lista não for encontrado, exibe a página de erro
-            return render_template("id_inexistente.html")
+            return render_template("not_found.html")
 
     except Exception as e:
         print(f"Erro ao conectar ao banco de dados ou buscar a lista: {e}")
-        return render_template("id_inexistente.html")
+        return render_template("not_found.html")
 
     finally:
         # Fechar o cursor e a conexão, se foram abertos
@@ -55,5 +58,6 @@ def lista(id_lista):
             conn.close()
 
 
+# Servir arquivos estáticos como imagens e CSS automaticamente
 if __name__ == "__main__":
     app.run(debug=True)
