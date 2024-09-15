@@ -3,6 +3,7 @@ body {
     height: 100vh;
     width: 100vw;
     background: linear-gradient(to left, #ffffff, #ffffff,#ffffff , #484444 );
+    overflow: hidden;
 }
 
 .caixa-pesquisa{
@@ -51,6 +52,7 @@ body {
     display: flex;
     justify-content: space-between;
     box-sizing: border-box;
+    z-index: 1; 
 }
 
 h3{
@@ -105,6 +107,15 @@ h2{
     top: 20%;
     left: 30%;
     position: absolute;
+}
+
+.bolinhas{
+    transform: translateX(-50%);
+    top: 55%;
+    left: 30%;
+    position: absolute;
+    overflow: hidden; 
+    z-index: 0; 
 }
 
 /* Responsividade */
