@@ -1,0 +1,168 @@
+body {
+    margin: 0;
+    height: 100vh;
+    width: 100vw;
+    background: linear-gradient(to left, #ffffff, #ffffff,#ffffff , #484444 );
+}
+
+.caixa-pesquisa{
+    position: absolute;
+    top: 50%;
+    left: 30%;
+    transform: translate(-50%, -50%);
+    background: #1e1c1c;
+    height: 8%;
+    width: 40%;
+    padding: 0 2vw;
+    border-radius: 40px;
+    display: flex;
+    justify-content: space-between;
+    box-sizing: border-box;
+}
+
+.texto-pesquisa{
+    background: none;
+    width: 90%;
+    border: 0;
+    outline: 0;
+    font-size: 16px;
+    color: #ffffff;
+}
+
+.botao-pesquisa{
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.bloco-opcoes{
+    position: absolute;
+    top: 80%;
+    left: 30%;
+    width: 40%;
+    transform: translate(-50%, -50%);
+    background: #1e1c1c;
+    height: 30%;
+    padding: 0 2vw;
+    border-radius: 40px;
+    display: flex;
+    justify-content: space-between;
+    box-sizing: border-box;
+}
+
+h3{
+    color: #ffffff;
+    cursor: pointer;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+p{
+    color: #ffffff;
+    font-family:'Times New Roman', Times, serif;
+}
+
+.acoes {
+    flex: 1; 
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center; 
+    color: #ffffff;
+}
+
+.logo-list, .logo-user{
+    cursor: pointer;
+}
+
+.acoes:not(:last-child) {
+    border-right: 2px solid #ffffff; 
+    padding-right: 2vw;
+}
+
+.cor, .mulher{
+    position: absolute;
+    top: 27%;
+    left: 61%;
+
+}
+
+h1{
+    position: absolute;
+    transform: translateX(-50%);
+    left: 50%;
+    text-align: center;
+    justify-content: center; 
+    top: 5%;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+h2{
+    font-family: cursive;
+    transform: translateX(-50%);
+    top: 20%;
+    left: 30%;
+    position: absolute;
+}
+
+/* Responsividade */
+
+@media (max-width: 768px) {
+    .caixa-pesquisa {
+        top: 60%;
+        width: 80%;
+    }
+
+    .bloco-opcoes {
+        position: absolute;
+        top: 70%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 90%;
+        flex-direction: column;
+        height: auto;
+        padding: 2vw;
+    }
+
+    .acoes:not(:last-child) {
+        border-right: none;
+        border-bottom: 2px solid #ffffff;
+        padding-bottom: 1vw;
+    }
+
+    .cor {
+        display: none;
+    }
+
+    .mulher {
+        display: none;
+    }
+
+    h1 {
+        top: 10%;
+    }
+
+    h2 {
+        top: 25%;
+    }
+}
+
+@media (max-width: 480px) {
+    .caixa-pesquisa {
+        top: 65%;
+    }
+
+    .bloco-opcoes {
+        top: 75%;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    h2 {
+        font-size: 1rem;
+    }
+}
