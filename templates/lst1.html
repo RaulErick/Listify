@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista Editável</title>
+    <link rel="stylesheet" href="lst1.css">
+</head>
+<body>
+    <div class="container">
+        
+        <div class="notebook-holes">
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+        </div>
+
+        
+        <div class="header">
+            <div class="list-id">
+                <span>ID: 0000123</span>
+            </div>
+            <div class="list-title">
+                <h2>Lista 1</h2>
+            </div>
+            <div class="download-icon">
+                <img src="downloadIcon.svg" alt="Download">
+            </div>
+        </div>
+
+        
+        <div class="shopping-list" id="shoppingList">
+            <div class="item-row">
+                <span class="delete-icon" onclick="removeItem(this)">✖</span>
+                <input type="checkbox" />
+                <span class="quantity">10 - Arroz</span>
+                <span class="price">R$150,00</span>
+            </div>
+            
+
+            <div class="item-row">
+                <span class="delete-icon" onclick="removeItem(this)">✖</span>
+                <input type="checkbox" />
+                <span class="quantity">1 - Item</span>
+                <span class="price">Preço</span>
+            </div>
+            <div class="item-row">
+                <span class="delete-icon" onclick="removeItem(this)">✖</span>
+                <input type="checkbox" />
+                <span class="quantity">1 - Item</span>
+                <span class="price">Preço</span>
+            </div>
+        </div>
+
+        
+        <div class="add-item">
+            <input type="text" id="newItemInput" placeholder="Digite o item e pressione Enter" onkeypress="handleKeyPress(event)">
+        </div>
+    </div>
+
+    <script>
+        function addItem(itemText) {
+            const shoppingList = document.getElementById('shoppingList');
+
+            
+            const newItem = document.createElement('div');
+            newItem.className = 'item-row';
+
+            newItem.innerHTML = `
+                <span class="delete-icon" onclick="removeItem(this)">✖</span>
+                <input type="checkbox" />
+                <span class="quantity">${itemText}</span>
+                <span class="price">Preço</span>
+            `;
+
+            
+            shoppingList.appendChild(newItem);
+        }
+
+        function removeItem(element) {
+            const itemRow = element.parentElement;
+            itemRow.remove();
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault(); 
+                const input = document.getElementById('newItemInput');
+                const itemText = input.value.trim();
+                if (itemText) {
+                    addItem(itemText);
+                    input.value = ''; 
+                }
+            }
+        }
+    </script>
+</body>
+</html>
