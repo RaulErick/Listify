@@ -5,22 +5,19 @@ app = Flask(__name__)
 
 # Configurações de conexão ao MySQL
 db_config = {
-    "host": "localhost",
+    "host": "localhost",  # Substitua pelo seu host
     "user": "seu_usuario",  # Substitua pelo seu usuário do MySQL
     "password": "sua_senha",  # Substitua pela sua senha do MySQL
     "database": "nome_do_banco",  # Substitua pelo nome do seu banco de dados
 }
 
 
-# Página inicial (home.html)
+# Rota para a página inicial (home.html)
 @app.route("/", methods=["GET", "POST"])
 def home():
     if request.method == "POST":
-        # Pega o valor digitado no campo de pesquisa
         id_lista = request.form.get("search_text")
-        if id_lista:
-            # Redireciona para a rota da lista com o ID pesquisado
-            return redirect(url_for("lista", id_lista=id_lista))
+        return redirect(url_for("lista", id_lista=id_lista))
     return render_template("home.html")
 
 
@@ -58,6 +55,5 @@ def lista(id_lista):
             conn.close()
 
 
-# Servir arquivos estáticos como imagens e CSS automaticamente
 if __name__ == "__main__":
     app.run(debug=True)

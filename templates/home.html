@@ -5,53 +5,44 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HOME</title>
-    <link rel="stylesheet" href="/static/css/home.css">
+    <link rel="stylesheet" href="static/css/home.css">
 </head>
 
 <body>
-    <!-- -->
-
     <h1>Bem-vindo(a) ao Listify</h1>
 
     <h2>Comece agora! Crie sua primeira lista de <br> compras em segundos e compartilhe com quem quiser</h2>
-    
 
     <div class="caixa-pesquisa">
-        <input type="text" class="texto-pesquisa" placeholder="Pesquisar lista por ID">
-        <a class="botao-pesquisa">
-            <img class="lupa-pesquisa" src="/static/image/home/Search.png" alt="lupa-pesquisa">
-        </a>
+        <form action="/" method="POST">
+            <input type="text" name="search_text" class="texto-pesquisa" placeholder="Pesquisar lista por ID">
+            <button type="submit" class="botao-pesquisa">
+                <img class="lupa-pesquisa" src="static/image/home/Search.png" alt="lupa-pesquisa">
+            </button>
+        </form>
     </div>
-
 
     <div class="bloco-opcoes">
         <div class="acoes">
-            <img class="logo-user" src="/static/image/home/logo-user.png" alt="Usuário">
+            <img class="logo-user" src="static/image/home/logo-user.png" alt="Usuário">
             <h3>Usuário</h3>
-            <p>
-                Alteração e visualização <br>
-                dos dados pessoais
-            </p>
+            <p>Alteração e visualização <br> dos dados pessoais</p>
         </div>
         <div class="acoes">
-            <img class="logo-list" src="/static/image/home/logo-list.png" alt="Lista">
+            <img class="logo-list" src="static/image/home/logo-list.png" alt="Lista">
             <h3>Nova Lista</h3>
-            <p>
-            Criação de novas listas
-            </p>
+            <p>Criação de novas listas</p>
         </div>
-
     </div>
 
     <div>
-        <img class="bolinhas" src="/static/image/home/bolinhas-textura.png" alt="Bolinhas"> 
+        <img class="bolinhas" src="static/image/home/bolinhas-textura.png" alt="Bolinhas">
     </div>
 
     <div class="img-fundo">
-        <img class="cor" src="/static/image/home/corzinha.png" alt="fundo-colorido">
-        <img class="mulher" src="/static/image/home/mulher.png" alt="mulher-comprando">
+        <img class="cor" src="static/image/home/corzinha.png" alt="fundo-colorido">
+        <img class="mulher" src="static/image/home/mulher.png" alt="mulher-comprando">
     </div>
-    
-</body>
 
+</body>
 </html>
