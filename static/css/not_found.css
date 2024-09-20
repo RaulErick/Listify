@@ -1,0 +1,97 @@
+.homem{
+    position: absolute;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    top: 30%;
+    left: 50%;
+    right: 50%;
+    width: 30%;
+}
+
+.lupa-x{
+    position: absolute;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    top: 90%;
+    left: 50%;
+    right: 50%;
+    width: 6%;
+}
+
+h1{
+    position: absolute;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    top: 60%;
+    left: 50%;
+    right: 50%;
+    width: 40%;
+
+}
+
+h2{
+    position: absolute;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    top: 70%;
+    left: 50%;
+    right: 50%;
+    width: 40%;
+}
+
+/* Responsividade para dispositivos móveis */
+@media (max-width: 768px) {
+    .homem {
+        width: 50%;
+        top: 20%;
+    }
+
+    .lupa-x {
+        width: 10%;
+        top: 80%;
+    }
+
+    h1 {
+        font-size: 1.5rem; /* Ajuste o tamanho da fonte para dispositivos móveis */
+        width: 80%;
+        top: 40%;
+    }
+
+    h2 {
+        font-size: 1rem; /* Ajuste o tamanho da fonte para dispositivos móveis */
+        width: 80%;
+        top: 50%;
+    }
+}
+
+@media (max-width: 480px) {
+    .homem {
+        width: 70%;
+        top: 15%;
+    }
+
+    .lupa-x {
+        width: 15%;
+        top: 70%;
+    }
+
+    h1 {
+        font-size: 1.2rem; /* Ajuste o tamanho da fonte para dispositivos móveis */
+        width: 90%;
+        top: 30%;
+    }
+
+    h2 {
+        font-size: 0.9rem; /* Ajuste o tamanho da fonte para dispositivos móveis */
+        width: 90%;
+        top: 40%;
+    }
+}

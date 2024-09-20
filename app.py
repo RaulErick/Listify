@@ -41,11 +41,11 @@ def lista(id_lista):
             return render_template("lista.html", lista=resultado)
         else:
             # Se o id_lista não for encontrado, exibe a página de erro
-            return render_template("id_inexistente.html")
+            return render_template("not_found.html")
 
     except Exception as e:
         print(f"Erro ao conectar ao banco de dados ou buscar a lista: {e}")
-        return render_template("id_inexistente.html")
+        return render_template("not_found.html")
 
     finally:
         # Fechar o cursor e a conexão, se foram abertos
