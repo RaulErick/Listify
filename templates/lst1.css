@@ -10,9 +10,9 @@ html, body {
     max-width: 66vw;
     margin: 0 auto;
     background-color: white;
-    border: 1px solid #ccc;
-    padding: 20px;
     margin-top: 4rem;
+    padding-top: 1rem;
+    background-image: https://www.google.com/url?sa=i&url=https%3A%2F%2Fpixabay.com%2Fvectors%2Fsheet-paper-print-white-lined-297179%2F&psig=AOvVaw0fq-0yTqodDHHr7CkWhohV&ust=1726962381684000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCKDKp6va0ogDFQAAAAAdAAAAABAJ;
 }
 
 .notebook-holes {
@@ -33,6 +33,7 @@ html, body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-top: 20px;
     margin-bottom: 20px;
     border-bottom: 2px solid #ccc;
     padding-bottom: 10px;
@@ -121,7 +122,6 @@ html, body {
 /* Adiciona estilo ao campo de texto para novos itens */
 .add-item {
     margin-top: 20px;
-    border-top: 1px solid #ccc;
     padding-top: 10px;
 }
 
