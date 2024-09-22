@@ -12,7 +12,8 @@ html, body {
     background-color: white;
     margin-top: 4rem;
     padding-top: 1rem;
-    background-image: https://www.google.com/url?sa=i&url=https%3A%2F%2Fpixabay.com%2Fvectors%2Fsheet-paper-print-white-lined-297179%2F&psig=AOvVaw0fq-0yTqodDHHr7CkWhohV&ust=1726962381684000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCKDKp6va0ogDFQAAAAAdAAAAABAJ;
+    border: 1px solid #ccc;
+    border-radius: 10px 10px 0px 0px;
 }
 
 .notebook-holes {
