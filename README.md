@@ -2,7 +2,11 @@
 
 Site de lista de compras 
 
+
+
+
 Comandos Git:
+
 git clone https://github.com/Beatriz33333/site_trab_git.git
 
 cd ./site_trab_git/
