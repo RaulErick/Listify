@@ -1,15 +1,10 @@
 from flask import Flask, render_template, request, redirect, url_for
-import mysql.connector
+from db_connection import (
+    create_connection,
+    close_connection,
+)  # Importando as funções de conexão
 
 app = Flask(__name__)
-
-# Configurações de conexão ao MySQL
-db_config = {
-    "host": "localhost",  # Substitua pelo seu host
-    "user": "seu_usuario",  # Substitua pelo seu usuário do MySQL
-    "password": "sua_senha",  # Substitua pela sua senha do MySQL
-    "database": "nome_do_banco",  # Substitua pelo nome do seu banco de dados
-}
 
 
 # Rota para a página inicial (home.html)
@@ -28,11 +23,14 @@ def lista(id_lista):
     cursor = None
     try:
         # Conectar ao banco de dados
-        conn = mysql.connector.connect(**db_config)
+        conn = create_connection()
+        if conn is None:
+            raise Exception("Não foi possível conectar ao banco de dados.")
+
         cursor = conn.cursor(dictionary=True)
 
         # Busca o id_lista na tabela
-        query = "SELECT * FROM lista WHERE id_lista = %s"
+        query = "SELECT * FROM Lista WHERE idlista = %s"
         cursor.execute(query, (id_lista,))
         resultado = cursor.fetchone()
 
@@ -52,7 +50,7 @@ def lista(id_lista):
         if cursor:
             cursor.close()
         if conn:
-            conn.close()
+            close_connection(conn)  # Usar a função para fechar a conexão
 
 
 if __name__ == "__main__":
