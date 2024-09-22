@@ -1,6 +1,6 @@
 # Listify
 
-Site de lista de compras 
+Repositório criado para desenvolvimento da aplicação Listify (site de lista de compras)
 
 
 
