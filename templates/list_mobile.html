@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Compras</title>
+    <link rel="stylesheet" href="/static/css/list_mobile.css">
+    <style>
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header_container" id="circleContainer">
+        </div>
+    </header>
+
+    <div class="list">
+
+        <div class="title_list">
+            <h1 id="list_name">Lista 1</h1>
+            <h4 id="ID">ID:12213</h4>
+        </div>
+
+        <div class="item"> <!--item 👍-->
+            <label class="custom_checkbox">
+                <h3> 
+                    <input type="checkbox" class="checkbox"> 
+                    <span class="checkmark"></span>
+                    <input type="number" class="quantity" min="0" value="qtd">
+                    <input type="text" class="item_name">
+                </h3>
+            </label>
+            <span class="price">
+                R$ <input type="number" class="price_input" step="0.01" min="0" placeholder="0.00">
+            </span>
+        </div>
+        
+        
+    </div>
+
+
+
+    <script>
+        function createCircles() {
+            const container = document.getElementById('circleContainer');
+            container.innerHTML = ''; //apaga os circulos existentes
+
+            const circleSize = 60; //tamanho dos círculos (px)
+            const gap = 10; //espaço entre os circulos
+            const containerWidth = window.innerWidth; //largura da tela
+            const circlesCount = Math.floor(containerWidth / (circleSize + gap)); //calcula a quantidade de circulos
+
+            for (let i = 0; i < circlesCount; i++) {
+                const circle = document.createElement('div');
+                circle.className = 'circle';
+                container.appendChild(circle); //adiciona o círculo
+            }
+        }
+
+        createCircles();
+
+        //atualiza a quantidade de círculos
+        window.addEventListener('resize', createCircles);
+    </script>
+</body>
+</html>
