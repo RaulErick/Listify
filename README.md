@@ -7,7 +7,7 @@ Repositório criado para desenvolvimento da aplicação Listify (site de lista d
 
 Comandos Git:
 
-git clone https://github.com/Beatriz33333/site_trab_git.git
+git clone https://github.com/RaulErick/Listify
 
 cd ./site_trab_git/
 
@@ -17,6 +17,6 @@ git add .
 
 git commit -m "Nome do Commit"
 
-git remote add origin https://github.com/Beatriz33333/site_trab_git.git
+git remote add origin https://github.com/RaulErick/Listify
 
 git push -u origin main
