@@ -1,0 +1,158 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+.container {
+    width: 100%;
+    max-width: 66vw;
+    margin: 0 auto;
+    background-color: white;
+    margin-top: 4rem;
+    padding-top: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 10px 10px 0px 0px;
+}
+
+.notebook-holes {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 10px;
+    padding: 10px 0;
+}
+
+.circle {
+    width: 20px;
+    height: 20px;
+    background-color: #4B4B4B;
+    border-radius: 50%;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 10px;
+}
+
+.list-id {
+    font-size: 24px;
+    font-weight: bold;
+    color: #616161;
+    font-family: monospace;
+}
+
+.list-title h2 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #616161;
+    font-family: monospace;
+}
+
+.download-icon img {
+    width: auto;
+    height: 50px;
+    cursor: pointer;
+    transition: transform 0.3s ease, opacity 0.3s ease; 
+}
+
+.download-icon img:hover {
+    transform: scale(1.1); 
+    opacity: 0.8; 
+}
+
+.shopping-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.item-row {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #ccc;
+}
+
+.item-row input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.quantity {
+    flex-grow: 1;
+    font-size: 18px;
+    border: none;
+}
+
+.price {
+    font-size: 18px;
+    border: none;
+}
+
+/* Adiciona estilo ao ícone de exclusão */
+.delete-icon {
+    color: #9b0808;
+    cursor: pointer;
+    margin-right: 10px;
+    font-size: 18px;
+    transition: color 0.3s, transform 0.3s;
+}
+
+/* Aplica o estilo ao ícone de exclusão quando hover */
+.delete-icon:hover {
+    color: #d32f2f; /* Cor mais escura para o ícone quando hover */ 
+}
+
+/* Aplica o efeito de linha atravessada ao texto quando o ícone de exclusão está hover */
+.delete-icon:hover ~ .quantity {
+    text-decoration: line-through;
+/* Opção para mudar a cor do texto quando riscado */
+}
+
+.delete-icon:hover ~ .price {
+    text-decoration: line-through;
+/* Opção para mudar a cor do texto quando riscado */
+}
+
+
+/* Adiciona estilo ao campo de texto para novos itens */
+.add-item {
+    margin-top: 20px;
+    padding-top: 10px;
+}
+
+#newItemInput {
+    width: calc(100% - 22px); /* Ajusta a largura para caber no container */
+    padding: 10px;
+    font-size: 18px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+#newItemInput:focus {
+    border-color: #4B4B4B;
+    text-decoration: underline;
+}
+
+#newItemInput::placeholder {
+    color: #aaa;
+    font-style: italic;
+}
+
+input#newItemInput {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border: none;
+    padding: 19px 0px 0px 0px;
+    width: -webkit-fill-available;
+    justify-content: center;
+}
