@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista Editável</title>
+    
+    <!-- Adicionar CSS do Bootstrap -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Adicionar Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="/static/css/list.css">
+</head>
+<body>
+    <div class="position-relative">
+        <a href="/" class="btn btn-link position-absolute" style="left: 0; top: 10px; color: #000; position: absolute;
+        left: 2vw;
+        top: 0vh;">
+            <i class="bi bi-arrow-left-circle" style="font-size: 2rem;"></i>
+        </a>
+    </div>
+
+    <div class="container">
+
+        
+
+
+        <div class="notebook-holes">
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+        </div>
+
+        <div class="header d-flex justify-content-between align-items-center">
+            <div class="list-id">
+                <!-- Exibe o ID da lista dinamicamente -->
+                <span>ID: {{ lista.idlista }}</span>
+            </div>
+            <div class="list-title">
+                <!-- Nome da lista é editável -->
+                <h2 id="nome_lista" contenteditable="true" onblur="atualizarNomeLista()">{{ lista.nome_lista }}</h2>
+
+            </div>
+            <div class="download-icon">
+                <img src="/static/image/lista/downloadIcon.png" alt="Download">
+            </div>
+            <div class="delete-list" id="deleteListContainer" style="display: none;">
+                <!-- Ícone Bootstrap para deletar -->
+                <i class="bi bi-clipboard2-x-fill" style="font-size: 2rem; color: #da9551; cursor: pointer;" onclick="deleteList()"></i>
+            </div>
+        </div>
+
+        <div class="shopping-list" id="shoppingList">
+            <!-- Lista de itens será adicionada aqui dinamicamente -->
+        </div>
+
+        <div class="add-item">
+            <input type="text" id="newItemInput" placeholder="Digite o item e pressione Enter" onkeypress="handleKeyPress(event)">
+        </div>
+
+        <!-- Modal para editar o preço -->
+        <div class="modal fade" id="priceModal" tabindex="-1" aria-labelledby="priceModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="priceModalLabel">Adicionar nota</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span>&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <label for="itemPrice">Anotação:</label>
+                        <input type="text" id="itemPrice" class="form-control">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                        <button type="button" class="btn btn-primary">Salvar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<!-- Botão de excluir lista no footer -->
+<footer class="footer mt-auto py-3">
+    <div class="container text-center" style="border: none;">
+        <button class="btn btn-danger" onclick="deleteListFromDatabase()">Excluir Lista</button>
+    </div>
+</footer>
+
+    </div>
+
+    <script>
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                const itemText = event.target.value.trim();
+                if (itemText !== '') {
+                    const listId = "{{ lista.idlista }}";
+    
+                    fetch(`/lista/${listId}/item`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: `nome_item=${encodeURIComponent(itemText)}`
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'success') {
+                            addItem(itemText, data.item_id);
+                            event.target.value = '';
+                        } else {
+                            console.error('Falha ao adicionar item:', data);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Erro ao adicionar item:', error);
+                    });
+                }
+            }
+        }
+    
+        function addItem(itemText, itemId) {
+        const shoppingList = document.getElementById('shoppingList');
+
+        const newItem = document.createElement('div');
+        newItem.className = 'item-row';
+        newItem.setAttribute('data-item-id', itemId); // Adiciona um atributo para o ID do item
+
+        newItem.innerHTML = `
+            <span class="delete-icon" onclick="removeItem(this)">✖</span>
+            <input type="checkbox" />
+            <input type="text" class="item-edit" value="${itemText}" onblur="updateItem(this, ${itemId})" />
+            <span class="price">
+                <i class="bi bi-pencil-square" style="cursor: pointer;" data-toggle="modal" data-target="#priceModal"></i>
+            </span>
+        `;
+
+        shoppingList.appendChild(newItem);
+    }
+
+    function updateItem(inputElement, itemId) {
+        const updatedText = inputElement.value.trim();
+        if (updatedText !== '') {
+            const listId = "{{ lista.idlista }}"; // Obtém o ID da lista
+
+            fetch(`/lista/${listId}/item/${itemId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: `nome_item=${encodeURIComponent(updatedText)}`
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Item atualizado com sucesso');
+                } else {
+                    console.error('Falha ao atualizar o item');
+                }
+            })
+            .catch(error => {
+                console.error('Erro ao atualizar o item:', error);
+            });
+        }
+    }
+    
+        function removeItem(element) {
+            const itemRow = element.parentElement;
+            const itemId = itemRow.getAttribute('data-item-id');
+            const listId = "{{ lista.idlista }}"; // Obtém o ID da lista
+    
+            fetch(`/lista/${listId}/item/${itemId}`, {
+                method: 'DELETE'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    itemRow.remove();
+                } else {
+                    console.error('Erro ao remover item:', data);
+                }
+            })
+            .catch(error => {
+                console.error('Erro ao remover item:', error);
+            });
+        }
+    
+        // Função para obter os itens da lista ao carregar a página
+        document.addEventListener('DOMContentLoaded', function() {
+            const listId = "{{ lista.idlista }}";
+            fetch(`/lista/${listId}/item`)
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(item => addItem(item.Nome_Item, item.idItens));
+                });
+        });
+
+        function atualizarNomeLista() {
+    const newName = document.getElementById("nome_lista").innerText;
+    const listId = "{{ lista.idlista }}"; // Obtém o ID da lista
+
+    fetch(`/atualizar_nome_lista/${listId}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: `novo_nome_lista=${encodeURIComponent(newName)}`
+    })
+    .then(response => {
+        if (response.ok) {
+            console.log('Nome atualizado com sucesso');
+        } else {
+            console.error('Falha ao atualizar o nome');
+        }
+    })
+    .catch(error => {
+        console.error('Erro ao atualizar o nome:', error);
+    });
+}
+
+
+
+function deleteListFromDatabase() {
+    const listId = "{{ lista.idlista }}"; // Obtém o ID da lista
+
+    fetch(`/lista/${listId}`, {
+        method: 'DELETE'
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.status === 'success') {
+            alert(data.message); // Exibe o alerta de sucesso
+            window.location.href = '/'; // Redireciona para a página inicial
+        } else {
+            console.error('Erro ao excluir lista:', data);
+        }
+    })
+    .catch(error => {
+        console.error('Erro ao excluir lista:', error);
+    });
+}
+
+
+
+    </script>
+
+    <!-- Adicionar JS do Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

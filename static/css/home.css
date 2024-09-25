@@ -2,14 +2,14 @@ body {
     margin: 0;
     height: 100vh;
     width: 100vw;
-    background: linear-gradient(to left, #ffffff, #ffffff,#ffffff , #484444 );
+    background: linear-gradient(to left, #ffffff, #ffffff, #ffffff, #484444);
     overflow: hidden;
 }
 
 .caixa-pesquisa {
     position: absolute;
     top: 50%;
-    left: 30%;
+    left: 30%; /* Mover mais para a esquerda */
     transform: translate(-50%, -50%);
     background: #1e1c1c;
     height: 60px; 
@@ -26,7 +26,6 @@ body {
     display: flex;
     align-items: center;
     width: 100%; 
-    position: relative; 
 }
 
 .texto-pesquisa {
@@ -60,13 +59,12 @@ body {
     pointer-events: none;
 }
 
-
-.bloco-opcoes{
+.bloco-opcoes {
     position: absolute;
     top: 80%;
-    left: 30%;
-    width: 40%;
+    left: 30%; /* Mover mais para a esquerda */
     transform: translate(-50%, -50%);
+    width: 40%;
     background: #1e1c1c;
     height: 30%;
     padding: 0 2vw;
@@ -77,15 +75,15 @@ body {
     z-index: 1; 
 }
 
-h3{
+h3 {
     color: #ffffff;
     cursor: pointer;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
-p{
+p {
     color: #ffffff;
-    font-family:'Times New Roman', Times, serif;
+    font-family: 'Times New Roman', Times, serif;
 }
 
 .acoes {
@@ -95,10 +93,41 @@ p{
     align-items: center; 
     justify-content: center; 
     color: #ffffff;
+    padding: 0; 
 }
 
-.logo-list, .logo-user{
+.acoes form {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center;
+    width: 100%; 
+}
+
+.acoes button {
+    background: none;
+    border: none;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
+    padding: 0; 
+    width: 100%;
+}
+
+.acoes button img {
+    transition: transform 0.3s ease;
+}
+
+.acoes:hover button img {
+    transform: scale(1.1); 
+}
+
+.acoes h3, .acoes p {
+    margin: 0; 
+    text-align: center;
 }
 
 .acoes:not(:last-child) {
@@ -106,112 +135,126 @@ p{
     padding-right: 2vw;
 }
 
-.cor, .mulher{
+.logo-list, .logo-user {
+    cursor: pointer;
+}
+
+.cor, .mulher {
     position: absolute;
     top: 27%;
     left: 61%;
-
 }
 
-h1{
+h1 {
     position: absolute;
+    left: 50%; /* Centraliza o título */
     transform: translateX(-50%);
-    left: 50%;
     text-align: center;
-    justify-content: center; 
     top: 5%;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
-h2{
+h2 {
     font-family: cursive;
-    transform: translateX(-50%);
-    top: 20%;
+    position: relative; /* Alterado para não cobrir outros elementos */
+    text-align: center; /* Centraliza o texto */
+    margin-top: 10%; /* Espaçamento em relação ao topo */
+    max-width: 80%; /* Para evitar que o texto fique muito largo */
     left: 30%;
-    position: absolute;
+    transform: translateX(-50%); /* Centraliza horizontalmente */
 }
 
-.bolinhas{
-    transform: translateX(-50%);
-    top: 55%;
-    left: 30%;
+.bolinhas {
     position: absolute;
+    top: 55%;
+    left: 14%;
     overflow: hidden; 
     z-index: 0; 
+    max-width: 100%; /* Para que a imagem se ajuste ao contêiner */
 }
 
-/* Responsividade */
+.texto-pesquisa:focus {
+    background: none; /* Mantém o fundo transparente ao focar */
+    outline: none; /* Remove o contorno padrão ao focar */
+    box-shadow: none; /* Remove qualquer sombra que possa ser aplicada ao focar */
+    color: #ffffff !important; /* Cor do texto branca */
+}
 
+/* Para navegadores baseados em WebKit (Chrome, Safari, Opera) */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    background-color: #1e1c1c !important; /* Cor de fundo desejada */
+    color: #ffffff !important; /* Cor do texto branco */
+    -webkit-text-fill-color: #ffffff !important; /* Força o preenchimento do texto para ser branco */
+    -webkit-box-shadow: 0 0 0px 1000px #1e1c1c inset !important; /* Corrige o fundo branco */
+    transition: background-color 5000s ease-in-out 0s; /* Mantém o fundo por tempo indefinido */
+}
+
+/* Para Firefox (pseudo-classe equivalente ao :autofill no Firefox) */
+input:-moz-autofill {
+    background-color: #1e1c1c !important; /* Cor de fundo desejada */
+    color: #ffffff !important; /* Cor do texto branco */
+    -moz-text-fill-color: #ffffff !important; /* Força o preenchimento do texto para ser branco */
+}
+
+/* Força o estilo nos outros navegadores */
+input:-ms-autofill {
+    background-color: #1e1c1c !important;
+    color: #ffffff !important;
+}
+
+
+/* Media Queries para telas menores */
 @media (max-width: 768px) {
     .caixa-pesquisa {
-        top: 60%;
-        width: 80%;
+        width: 80%; /* Aumentar a largura da caixa de pesquisa em telas menores */
+        left: 50%; /* Centraliza horizontalmente */
+        transform: translate(-50%, -50%);
     }
 
     .bloco-opcoes {
-        position: absolute;
-        top: 70%;
-        left: 50%;
+        width: 80%; /* Aumentar a largura do bloco de opções em telas menores */
+        left: 50%; /* Centraliza horizontalmente */
         transform: translate(-50%, -50%);
-        width: 90%;
-        flex-direction: column;
-        height: auto;
-        padding: 2vw;
-        z-index: 1; /* Mantém o bloco de opções à frente */
     }
 
-    .bolinhas {
-        transform: translateX(-50%);
-        top: 75%;
-        left: 50%;
-        position: absolute;
-        z-index: 0; /* Coloca as bolinhas atrás na versão mobile */
+    h1 {
+        font-size: 24px; /* Reduzir o tamanho da fonte do título */
+    }
+
+    h2 {
+        display: none; /* Esconder o h2 na versão mobile */
+    }
+
+    .cor, .mulher {
+        display: none; /* Esconder as imagens na versão mobile */
+    }
+
+    h2 {
+        font-size: 18px; /* Reduzir o tamanho da fonte do subtítulo */
+        margin-top: 5%; /* Ajustar a margem */
+    }
+
+    .acoes {
+        flex-direction: column; /* Alinhar as ações em coluna */
+        width: 100%; /* Garantir que ocupem a largura total */
     }
 
     .acoes:not(:last-child) {
-        border-right: none;
-        border-bottom: 2px solid #ffffff;
-        padding-bottom: 1vw;
+        border-right: none; /* Remover a borda à direita */
     }
 
-    .cor {
-        display: none;
-    }
-
-    .mulher {
-        display: none;
-    }
-
-    h1 {
-        top: 10%;
-    }
-
-    h2 {
-        top: 25%;
-    }
-}
-
-@media (max-width: 480px) {
-    .caixa-pesquisa {
-        top: 65%;
-    }
-
+    .caixa-pesquisa,
     .bloco-opcoes {
-        top: 75%;
-        z-index: 1; /* Bloco de opções à frente na versão mobile menor */
+        margin-bottom: 20px; /* Adicionar margem entre os elementos */
     }
 
-    .bolinhas {
-        transform: translateX(-50%);
-        top: 80%; /* Ajuste para manter a posição visual */
-        z-index: 0; /* Bolinhas atrás do bloco */
+    .acoes:not(:last-child) {
+        border-right: 2px solid #ffffff; /* Garantir que a borda apareça na versão mobile */
+        padding-right: 0; /* Remover o padding à direita, se necessário */
+        border-bottom: none; /* Remover qualquer borda inferior, se aplicável */
     }
 
-    h1 {
-        font-size: 1.5rem;
-    }
-
-    h2 {
-        font-size: 1rem;
-    }
 }
