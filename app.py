@@ -33,6 +33,8 @@ def gerar_id_unico():
 
     return id_lista_aleatorio
 
+
+
 # Rota para criar uma nova lista
 @app.route("/criar_lista", methods=["POST"])
 def criar_lista():
@@ -131,6 +133,25 @@ def obter_itens(lista_id):
     close_connection(conn)
 
     return jsonify(itens), 200
+
+@app.route('/lista/<int:id_lista>', methods=['DELETE'])
+def excluir_lista(id_lista):
+    conn = create_connection()
+    cursor = conn.cursor()
+
+    # Excluir a lista da tabela Lista
+    cursor.execute("DELETE FROM Lista WHERE idlista = %s", (id_lista,))
+    
+    # Excluir todos os itens associados à lista
+    cursor.execute("DELETE FROM Lista_has_Itens WHERE Lista_idLista = %s", (id_lista,))
+    
+    conn.commit()
+    cursor.close()
+    close_connection(conn)
+
+    return jsonify({'status': 'success', 'message': f'Lista com ID {id_lista} excluída com sucesso!'}), 200
+
+
 
 @app.route('/item/<int:item_id>', methods=['PUT'])
 def atualizar_item(item_id):
