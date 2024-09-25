@@ -153,22 +153,23 @@ def excluir_lista(id_lista):
 
 
 
-@app.route('/item/<int:item_id>', methods=['PUT'])
-def atualizar_item(item_id):
+@app.route('/lista/<int:lista_id>/item/<int:item_id>', methods=['PUT'])
+def atualizar_item(lista_id, item_id):
     nome_item = request.form.get('nome_item')
-    anotacoes_item = request.form.get('anotacoes_item', '')
 
     conn = create_connection()
     cursor = conn.cursor()
 
     # Atualizar o item na tabela Itens
-    cursor.execute("UPDATE Itens SET Nome_Item = %s, Anotacoes_item = %s WHERE idItens = %s", (nome_item, anotacoes_item, item_id))
+    cursor.execute("UPDATE Itens SET Nome_Item = %s WHERE idItens = %s", (nome_item, item_id))
     conn.commit()
 
     cursor.close()
     close_connection(conn)
 
     return jsonify({'status': 'success'}), 200
+
+
 
 @app.route('/lista/<int:lista_id>/item/<int:item_id>', methods=['DELETE'])
 def excluir_item(lista_id, item_id):

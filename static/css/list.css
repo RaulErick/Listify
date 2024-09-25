@@ -4,7 +4,9 @@ html, body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
 }
-
+input.item-edit {
+    border: none;
+}
 .container {
     width: 100%;
     max-width: 66vw;
@@ -147,6 +149,10 @@ html, body {
     font-style: italic;
 }
 
+
+input.item-edit:focus {
+    border: none;
+}
 input#newItemInput {
     display: flex;
     flex-direction: row;
@@ -155,4 +161,8 @@ input#newItemInput {
     padding: 19px 0px 0px 0px;
     width: -webkit-fill-available;
     justify-content: center;
+}
+
+i.bi.bi-pencil-square {
+    display: none;
 }

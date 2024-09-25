@@ -128,23 +128,48 @@
         }
     
         function addItem(itemText, itemId) {
-            const shoppingList = document.getElementById('shoppingList');
-    
-            const newItem = document.createElement('div');
-            newItem.className = 'item-row';
-            newItem.setAttribute('data-item-id', itemId); // Adiciona um atributo para o ID do item
-    
-            newItem.innerHTML = `
-                <span class="delete-icon" onclick="removeItem(this)">✖</span>
-                <input type="checkbox" />
-                <span class="quantity">${itemText}</span>
-                <span class="price">
-                    <i class="bi bi-pencil-square" style="cursor: pointer;" data-toggle="modal" data-target="#priceModal"></i>
-                </span>
-            `;
-    
-            shoppingList.appendChild(newItem);
+        const shoppingList = document.getElementById('shoppingList');
+
+        const newItem = document.createElement('div');
+        newItem.className = 'item-row';
+        newItem.setAttribute('data-item-id', itemId); // Adiciona um atributo para o ID do item
+
+        newItem.innerHTML = `
+            <span class="delete-icon" onclick="removeItem(this)">✖</span>
+            <input type="checkbox" />
+            <input type="text" class="item-edit" value="${itemText}" onblur="updateItem(this, ${itemId})" />
+            <span class="price">
+                <i class="bi bi-pencil-square" style="cursor: pointer;" data-toggle="modal" data-target="#priceModal"></i>
+            </span>
+        `;
+
+        shoppingList.appendChild(newItem);
+    }
+
+    function updateItem(inputElement, itemId) {
+        const updatedText = inputElement.value.trim();
+        if (updatedText !== '') {
+            const listId = "{{ lista.idlista }}"; // Obtém o ID da lista
+
+            fetch(`/lista/${listId}/item/${itemId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: `nome_item=${encodeURIComponent(updatedText)}`
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Item atualizado com sucesso');
+                } else {
+                    console.error('Falha ao atualizar o item');
+                }
+            })
+            .catch(error => {
+                console.error('Erro ao atualizar o item:', error);
+            });
         }
+    }
     
         function removeItem(element) {
             const itemRow = element.parentElement;
