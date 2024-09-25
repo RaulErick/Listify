@@ -16,6 +16,7 @@
 <body>
     <div class="container">
         
+        <!--
         <div class="notebook-holes">
             <div class="circle"></div>
             <div class="circle"></div>
@@ -26,7 +27,9 @@
             <div class="circle"></div>
             <div class="circle"></div>
             <div class="circle"></div>
-        </div>
+        </div>-->
+
+        <div class="notebook-holes" id="circle"></div>
 
         <div class="header d-flex justify-content-between align-items-center">
             <div class="list-id">
@@ -192,6 +195,33 @@
                 alert('Erro ao excluir a lista.');
             });
         }
+
+
+
+
+        function createCircles() {
+            const container = document.getElementById('circle');
+            container.innerHTML = ''; //apaga os circulos existentes
+
+            const circleSize = 60; //tamanho dos círculos (px)
+            const gap = 10; //espaço entre os circulos
+            const containerWidth = window.innerWidth; //largura da tela
+            const circlesCount = Math.floor(containerWidth / (circleSize + gap)); //calcula a quantidade de circulos
+
+            for (let i = 0; i < circlesCount; i++) {
+                const circle = document.createElement('div');
+                circle.className = 'circle';
+                container.appendChild(circle); //adiciona o círculo
+            }
+        }
+
+        createCircles();
+
+        //atualiza a quantidade de círculos
+        window.addEventListener('resize', createCircles);
+
+
+
 
         // Inicialmente, oculta o ícone de limpar se não houver itens
         window.onload = toggleDeleteListButton;

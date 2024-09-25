@@ -16,16 +16,28 @@ html, body {
     border-radius: 10px 10px 0px 0px;
 }
 
+/*
 .notebook-holes {
     display: flex;
     justify-content: space-between;
     margin: 0 10px;
     padding: 10px 0;
 }
+*/
+
+.notebook-holes {
+    display: flex;
+    justify-content: center;
+    gap: 30px; /*espaço entre os círculos*/
+    align-items: center;
+    padding: 10px 10px
+}
+
 
 .circle {
+
     width: 20px;
-    height: 20px;
+    height: 16.5px;
     background-color: #4B4B4B;
     border-radius: 50%;
 }
@@ -48,6 +60,7 @@ html, body {
 }
 
 .list-title h2 {
+    margin-top: 9px;
     font-size: 24px;
     font-weight: bold;
     color: #616161;
@@ -157,3 +170,55 @@ input#newItemInput {
     justify-content: center;
 }
 
+@media (max-width: 768px) {
+    .container {
+        max-width: 100%;
+        margin-top: 0rem;
+        padding-top: 0rem;
+        border-radius: 0;
+        margin: auto;
+    }
+
+    .download-icon img {
+        width: auto;
+        height: 40px;
+        cursor: pointer;
+        transition: transform 0.3s ease, opacity 0.3s ease; 
+    }
+
+    .download-icon img:hover {
+        transform: scale(1.1);
+        opacity: 0.8;
+    }
+
+    .header {
+        flex-wrap: wrap; /* Permite que os itens quebrem para uma nova linha */
+        justify-content: center; /* Centraliza os ícones */
+    }
+
+    .header, .download-icon, .list-id, .delete-list, .list-title{
+        flex: 0 1 45%; /* Cada ícone ocupa cerca de 45% da linha, fazendo com que dois fiquem na mesma linha */
+        margin-bottom: 10px; /* Adiciona um espaço entre os ícones na linha de baixo */
+        text-align: center; /* Opcional: centraliza os ícones */
+    }
+
+    .header .list-title:nth-child(2) {
+        order: 1; /* Primeiro ícone vai para a 3ª posição */
+    }
+    
+    .header .list-id:nth-child(1) {
+        order: 2; /* Segundo ícone vai para a 1ª posição */
+    }
+
+    .header .download-icon:nth-child(3) {
+        order: 3; /* Terceiro ícone vai para a 2ª posição */
+    }
+
+    .header .delete-list:nth-child(4) {
+        order: 4; /* Quarto ícone vai para a 4ª posição */
+    }
+
+    .circle {
+        height: 20px;
+    }
+}
