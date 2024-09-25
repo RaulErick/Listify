@@ -5,8 +5,8 @@ from mysql.connector import Error
 db_config = {
     "host": "localhost",
     "user": "root",
-    "password": "root",
-    "database": "Listfy",
+    "password": "uniceub",
+    "database": "listify",
     "port": 3306,
 }
 

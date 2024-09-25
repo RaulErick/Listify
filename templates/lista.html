@@ -47,31 +47,7 @@
         </div>
 
         <div class="shopping-list" id="shoppingList">
-            <div class="item-row">
-                <span class="delete-icon" onclick="removeItem(this)">✖</span>
-                <input type="checkbox" />
-                <span class="quantity">10 - Arroz</span>
-                <span class="price">
-                    <i class="bi bi-pencil-square" style="cursor: pointer;" data-toggle="modal" data-target="#priceModal"></i>
-                </span>
-            </div>
-
-            <div class="item-row">
-                <span class="delete-icon" onclick="removeItem(this)">✖</span>
-                <input type="checkbox" />
-                <span class="quantity">1 - Item</span>
-                <span class="price">
-                    <i class="bi bi-pencil-square" style="cursor: pointer;" data-toggle="modal" data-target="#priceModal"></i>
-                </span>
-            </div>
-            <div class="item-row">
-                <span class="delete-icon" onclick="removeItem(this)">✖</span>
-                <input type="checkbox" />
-                <span class="quantity">1 - Item</span>
-                <span class="price">
-                    <i class="bi bi-pencil-square" style="cursor: pointer;" data-toggle="modal" data-target="#priceModal"></i>
-                </span>
-            </div>
+            <!-- Lista de itens será adicionada aqui dinamicamente -->
         </div>
 
         <div class="add-item">
@@ -109,47 +85,42 @@
     </div>
 
     <script>
-        // Função para enviar o nome atualizado da lista para o backend
-        document.getElementById('nome_lista').addEventListener('blur', function() {
-            var novoNome = this.textContent;
-            var idLista = "{{ lista.idlista }}";
-
-            // Enviar a atualização via AJAX
-            fetch(`/atualizar_nome_lista/${idLista}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: `novo_nome_lista=${encodeURIComponent(novoNome)}`
-            })
-            .then(response => response.text())
-            .then(data => {
-                console.log("Nome atualizado com sucesso:", data);
-            })
-            .catch(error => {
-                console.error("Erro ao atualizar o nome da lista:", error);
-            });
-        });
-
-        // Função para verificar a quantidade de itens na lista e mostrar/esconder o ícone de limpar
-        function toggleDeleteListButton() {
-            const shoppingList = document.getElementById('shoppingList');
-            const deleteListContainer = document.getElementById('deleteListContainer');
-
-            if (shoppingList.children.length > 0) {
-                deleteListContainer.style.display = 'block';  // Mostra o ícone de limpar
-            } else {
-                deleteListContainer.style.display = 'none';   // Esconde o ícone de limpar
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                const itemText = event.target.value.trim();
+                if (itemText !== '') {
+                    const listId = "{{ lista.idlista }}";
+    
+                    fetch(`/lista/${listId}/item`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: `nome_item=${encodeURIComponent(itemText)}`
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'success') {
+                            addItem(itemText, data.item_id);
+                            event.target.value = '';
+                        } else {
+                            console.error('Falha ao adicionar item:', data);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Erro ao adicionar item:', error);
+                    });
+                }
             }
         }
-
-        // Função para adicionar item
-        function addItem(itemText) {
+    
+        function addItem(itemText, itemId) {
             const shoppingList = document.getElementById('shoppingList');
-
+    
             const newItem = document.createElement('div');
             newItem.className = 'item-row';
-
+            newItem.setAttribute('data-item-id', itemId); // Adiciona um atributo para o ID do item
+    
             newItem.innerHTML = `
                 <span class="delete-icon" onclick="removeItem(this)">✖</span>
                 <input type="checkbox" />
@@ -158,54 +129,40 @@
                     <i class="bi bi-pencil-square" style="cursor: pointer;" data-toggle="modal" data-target="#priceModal"></i>
                 </span>
             `;
-
+    
             shoppingList.appendChild(newItem);
-
-            // Atualiza a visibilidade do ícone de limpar
-            toggleDeleteListButton();
         }
-
-        // Função para remover item
+    
         function removeItem(element) {
             const itemRow = element.parentElement;
-            itemRow.remove();
-
-            // Atualiza a visibilidade do ícone de limpar
-            toggleDeleteListButton();
-        }
-
-        // Função para deletar a lista inteira
-        function deleteList() {
-            const shoppingList = document.getElementById('shoppingList');
-            shoppingList.innerHTML = '';  // Remove todos os itens da lista
-
-            // Atualiza a visibilidade do ícone de limpar
-            toggleDeleteListButton();
-        }
-
-        // Função para deletar a lista da base de dados
-        function deleteListFromDatabase() {
-            // Chamada para o backend (exemplo: usando fetch API)
-            const listId = "{{ lista.idlista }}";  // Substitua com o ID real da lista
-            fetch(`/delete-list/${listId}`, {
-                method: 'DELETE',
+            const itemId = itemRow.getAttribute('data-item-id');
+            const listId = "{{ lista.idlista }}"; // Obtém o ID da lista
+    
+            fetch(`/lista/${listId}/item/${itemId}`, {
+                method: 'DELETE'
             })
-            .then(response => {
-                if (response.ok) {
-                    alert('Lista excluída com sucesso!');
-                    deleteList();  // Remove a lista da interface
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    itemRow.remove();
                 } else {
-                    alert('Erro ao excluir a lista.');
+                    console.error('Erro ao remover item:', data);
                 }
             })
             .catch(error => {
-                console.error('Erro:', error);
-                alert('Erro ao excluir a lista.');
+                console.error('Erro ao remover item:', error);
             });
         }
-
-        // Inicialmente, oculta o ícone de limpar se não houver itens
-        window.onload = toggleDeleteListButton;
+    
+        // Função para obter os itens da lista ao carregar a página
+        document.addEventListener('DOMContentLoaded', function() {
+            const listId = "{{ lista.idlista }}";
+            fetch(`/lista/${listId}/item`)
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(item => addItem(item.Nome_Item, item.idItens));
+                });
+        });
     </script>
 
     <!-- Adicionar JS do Bootstrap -->
