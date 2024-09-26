@@ -1,0 +1,122 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+#myButton {
+    z-index: 10;
+    width: 30%;
+    height: 30px;
+    padding: 10px;
+    margin-bottom: 5%;
+    padding: 0%;
+}
+
+#myButton img {
+    width: 100%;
+    height: auto;
+}
+
+h4 {
+    color: black;
+    font-family: 'Poppins', sans-serif;
+}
+
+p, h1 {
+    color: black;
+}
+
+.background {
+    z-index: -1;
+}
+
+body {
+    overflow: hidden;
+    width: 100%;
+    height: 100vh;
+    margin: 0;
+    background-image: url('/static/image/landing_page/background.png');
+    background-size: cover;
+    background-position: center;
+}
+
+.container {
+    margin-top: 5%; 
+    margin-left: 20%;
+    width: 80%;
+    max-width: 500px;
+    height: auto;
+    display: flex;
+    border-radius: 40px;
+    flex-direction: column;
+    padding: 40px;
+    position: relative;
+    backdrop-filter: blur(10px); /* Aplica o blur no fundo do container */
+    -webkit-backdrop-filter: blur(10px); /* Suporte para navegadores Webkit */
+    background: linear-gradient(
+        135deg,
+        rgba(96, 74, 74, 0.5), /* cor #604a4a com 50% de opacidade */
+        rgba(84, 75, 75, 0.4), /* cor #544b4b com 40% de opacidade */
+        rgba(84, 75, 75, 0.3), /* cor #544b4b com 30% de opacidade */
+        rgba(255, 255, 255, 0.2) /* branco com 20% de opacidade */
+    ); 
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-control {
+    color: rgba(0,0,0,.87);
+    border-bottom-color: rgba(0,0,0,.42);
+    box-shadow: none !important;
+    border: none;
+    border-bottom: 1px solid;
+    border-radius: 4px 4px 0 0;
+}
+
+.btn-primary {
+    width: 100%;
+    border: none;
+    border-radius: 50px;
+    background: #99665F;
+}
+
+.btn-primary:hover {
+    background-color: #4c3330;
+}
+
+/* Adiciona estilos para telas menores */
+@media (max-width: 768px) {
+    .container {
+        margin-left: 3%; /* Remove margem esquerda */
+        margin-right: 4%; /* Remove margem direita */
+        margin-top: 20%;
+        width: 90%; /* Alinha o box para ocupar 90% da largura da tela */
+        padding: 20px; /* Ajusta o padding para ser mais estreito se necessário */
+        backdrop-filter: blur(10px); /* Aplica o blur apenas na versão mobile */
+            -webkit-backdrop-filter: blur(10px); /* Suporte para navegadores Webkit */
+            background: linear-gradient(
+                135deg,
+                rgba(96, 74, 74, 0.5), /* cor #604a4a com 50% de opacidade */
+                rgba(84, 75, 75, 0.4), /* cor #544b4b com 40% de opacidade */
+                rgba(84, 75, 75, 0.3), /* cor #544b4b com 30% de opacidade */
+                rgba(255, 255, 255, 0.2) /* branco com 20% de opacidade */
+            );    
+    }
+    
+        /* Para garantir que o texto não seja desfocado, você pode adicionar um fundo branco sólido, se necessário */
+        .container h1,
+        .container h4,
+        .container p {
+            color: black; /* Certifique-se de que o texto esteja claro e nítido */
+            z-index: 1; /* Garante que o texto fique acima do fundo desfocado */
+            position: relative; /* Mantém a posição do texto em relação ao fundo */
+        }
+    }
+
