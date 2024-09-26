@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/css/criar_conta.css" rel="stylesheet">
+    <title>Criar Conta</title>
+</head>
+<body>
+    <div class="container d-flex flex-column justify-content-center align-items-center vh-80">
+        <div>
+            <button onclick="window.location.href='/templates/login.html';" id="myButton" class="btn position-absolute top-0 end-0 m-3 p-0 border-0 bg-transparent">
+                <img src="/static/image/criar_conta/x.png" alt="Voltar" class="img-fluid">
+            </button>
+        </div>
+        <form action="#" class="form-text w-100">
+            <div class="form-header ">
+                <div class="logo">
+                    <img src="/static/image/logo.png" alt="logo" class="img-fluid mb-3">
+                </div>
+                <div class="title">
+                    <h1>Criar Conta</h1>
+                </div>
+                <div class="input-group flex-column">
+                    <div class="input-box mb-3">
+                        <label for="firstName">Primeiro Nome</label>
+                        <input class="form-control" type="text" name="firstName" id="firstName" required>
+                    </div>
+                    <div class="input-box mb-3">
+                        <label for="lastName">Sobrenome</label>
+                        <input class="form-control" type="text" name="lastName" id="lastName" required>
+                    </div>
+                    <div class="input-box mb-3">
+                        <label for="email">Email</label>
+                        <input class="form-control" type="email" name="email" id="email" required>
+                    </div>
+                    <div class="input-box mb-3">
+                        <label for="password">Senha</label>
+                        <input class="form-control" type="password" name="password" id="password" required>
+                    </div>
+                    <div class="input-box mb-3">
+                        <label for="Confirmpassword">Confirmar Senha</label>
+                        <input class="form-control" type="password" name="Confirmpassword" id="Confirmpassword" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary mt-3">Criar Conta</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

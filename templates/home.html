@@ -5,11 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HOME</title>
-<<<<<<< HEAD
-=======
-    <link rel="icon" href="{{ url_for('static', filename='favicon.png') }}" type="image/png">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
->>>>>>> Lucas
     <link rel="stylesheet" href="/static/css/home.css">
 </head>
 
@@ -19,38 +15,6 @@
 
         <h2>Crie sua primeira lista de compras em segundos <br> e compartilhe com quem quiser</h2>
 
-<<<<<<< HEAD
-    <div class="caixa-pesquisa">
-        <form action="/" method="POST">
-            <input type="text" name="search_text" class="texto-pesquisa" placeholder="Pesquisar lista por ID">
-            <button type="submit" class="botao-pesquisa" >
-                <img class="lupa-pesquisa" src="/static/image/home/Search.png" alt="lupa-pesquisa">
-            </button>
-        </form>
-    </div>
-
-    <div class="bloco-opcoes">
-        <div class="acoes">
-            <img class="logo-user" src="/static/image/home/logo-user.png" alt="Usuário">
-            <h3>Usuário</h3>
-            <p>Alteração e visualização <br> dos dados pessoais</p>
-        </div>
-        <div class="acoes">
-            <img class="logo-list" src="/static/image/home/logo-list.png" alt="Lista">
-            <h3>Nova Lista</h3>
-            <p>Criação de novas listas</p>
-        </div>
-    </div>
-
-    <div>
-        <img class="bolinhas" src="/static/image/home/bolinhas-textura.png" alt="Bolinhas">
-    </div>
-
-    <div class="img-fundo">
-        <img class="cor" src="/static/image/home/corzinha.png" alt="fundo-colorido">
-        <img class="mulher" src="/static/image/home/mulher.png" alt="mulher-comprando">
-    </div>
-=======
         <div class="caixa-pesquisa mx-auto">
             <form action="/" method="POST">
                 <input type="text" name="search_text" class="texto-pesquisa form-control" placeholder="Pesquisar lista por ID">
@@ -71,14 +35,13 @@
                 </form>
             </div>
             <div class="col-md-6 col-12 acoes">
-                <!-- Modifiquei a action para "/criar_lista" -->
-                <form action="/criar_lista" method="POST">
+                <form action="/nova_lista" method="POST">
                     <button type="submit" class="botao-pesquisa">
                         <img class="logo-list" src="/static/image/home/logo-list.png" alt="Lista">
                         <h3>Nova Lista</h3>
                         <p>Criação de novas listas</p>
-                    </button>
-                </form>
+                </button>
+            </form>
             </div>
         </div>
 
@@ -94,19 +57,5 @@
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
->>>>>>> Lucas
-
-    <script>
-        document.querySelector('form').addEventListener('submit', function(event) {
-            var searchText = document.querySelector('input[name="search_text"]').value;
-            var onlyNumbers = /^\d+$/;
-    
-            if (!onlyNumbers.test(searchText)) {
-                event.preventDefault(); // Impede o envio do formulário
-                alert("Por favor, insira apenas números no campo de pesquisa.");
-            }
-        });
-    </script>
-    
 </body>
 </html>

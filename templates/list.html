@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista Editável</title>
+    
+    <!-- Adicionar CSS do Bootstrap -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Adicionar Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="/static/css/list.css">
+</head>
+<body>
+    <div class="container">
+        
+        <!--
+        <div class="notebook-holes">
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+        </div>-->
+
+        <div class="notebook-holes" id="circle"></div>
+
+        <div class="header d-flex justify-content-between align-items-center">
+            <div class="list-id">
+                <span>ID: 0000123</span>
+            </div>
+            <div class="list-title">
+                <h2>Lista 1</h2>
+            </div>
+            <div class="download-icon">
+                <img src="/static/image/list/Download.png" alt="Download">
+            </div>
+            <div class="delete-list" id="deleteListContainer" style="display: none;">
+                <!-- Ícone Bootstrap para deletar -->
+                <i class="bi bi-clipboard2-x-fill" style="font-size: 2rem; color: #da9551; cursor: pointer;" onclick="deleteList()"></i>
+            </div>
+        </div>
+
+        <div class="shopping-list" id="shoppingList">
+            <div class="item-row">
+                <span class="delete-icon" onclick="removeItem(this)">✖</span>
+                <input type="checkbox" />
+                <span class="quantity">10 - Arroz</span>
+                <span class="price">
+                    <i class="bi bi-pencil-square" style="cursor: pointer;" data-toggle="modal" data-target="#priceModal"></i>
+                </span>
+            </div>
+
+            <div class="item-row">
+                <span class="delete-icon" onclick="removeItem(this)">✖</span>
+                <input type="checkbox" />
+                <span class="quantity">1 - Item</span>
+                <span class="price">
+                    <i class="bi bi-pencil-square" style="cursor: pointer;" data-toggle="modal" data-target="#priceModal"></i>
+                </span>
+            </div>
+            <div class="item-row">
+                <span class="delete-icon" onclick="removeItem(this)">✖</span>
+                <input type="checkbox" />
+                <span class="quantity">1 - Item</span>
+                <span class="price">
+                    <i class="bi bi-pencil-square" style="cursor: pointer;" data-toggle="modal" data-target="#priceModal"></i>
+                </span>
+            </div>
+        </div>
+
+        <div class="add-item">
+            <input type="text" id="newItemInput" placeholder="Digite o item e pressione Enter" onkeypress="handleKeyPress(event)">
+        </div>
+
+        <!-- Modal para editar o preço -->
+        <div class="modal fade" id="priceModal" tabindex="-1" aria-labelledby="priceModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="priceModalLabel">Adicionar nota</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span>&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <label for="itemPrice">Anotação:</label>
+                        <input type="text" id="itemPrice" class="form-control" >
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                        <button type="button" class="btn btn-primary">Salvar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Botão de excluir lista no footer -->
+        <footer class="footer mt-auto py-3">
+            <div class="container text-center" style=" border: none;">
+                <button class="btn btn-danger" onclick="deleteListFromDatabase()">Excluir Lista</button>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Função para verificar a quantidade de itens na lista e mostrar/esconder o ícone de limpar
+        function toggleDeleteListButton() {
+            const shoppingList = document.getElementById('shoppingList');
+            const deleteListContainer = document.getElementById('deleteListContainer');
+
+            if (shoppingList.children.length > 0) {
+                deleteListContainer.style.display = 'block';  // Mostra o ícone de limpar
+            } else {
+                deleteListContainer.style.display = 'none';   // Esconde o ícone de limpar
+            }
+        }
+
+        // Função para adicionar item
+        function addItem(itemText) {
+            const shoppingList = document.getElementById('shoppingList');
+
+            const newItem = document.createElement('div');
+            newItem.className = 'item-row';
+
+            newItem.innerHTML = `
+                <span class="delete-icon" onclick="removeItem(this)">✖</span>
+                <input type="checkbox" />
+                <span class="quantity">${itemText}</span>
+                <span class="price">
+                    <i class="bi bi-pencil-square" style="cursor: pointer;" data-toggle="modal" data-target="#priceModal"></i>
+                </span>
+            `;
+
+            shoppingList.appendChild(newItem);
+
+            // Atualiza a visibilidade do ícone de limpar
+            toggleDeleteListButton();
+        }
+
+        // Função para remover item
+        function removeItem(element) {
+            const itemRow = element.parentElement;
+            itemRow.remove();
+
+            // Atualiza a visibilidade do ícone de limpar
+            toggleDeleteListButton();
+        }
+
+        // Função para lidar com a adição de itens ao pressionar Enter
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                const input = document.getElementById('newItemInput');
+                const itemText = input.value.trim();
+                if (itemText) {
+                    addItem(itemText);
+                    input.value = '';  // Limpa o campo de entrada
+                }
+            }
+        }
+
+        // Função para deletar a lista inteira
+        function deleteList() {
+            const shoppingList = document.getElementById('shoppingList');
+            shoppingList.innerHTML = '';  // Remove todos os itens da lista
+
+            // Atualiza a visibilidade do ícone de limpar
+            toggleDeleteListButton();
+        }
+
+        // Função para deletar a lista da base de dados
+        function deleteListFromDatabase() {
+            // Chamada para o backend (exemplo: usando fetch API)
+            const listId = 123;  // Substitua com o ID real da lista
+            fetch(`/delete-list/${listId}`, {
+                method: 'DELETE',
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Lista excluída com sucesso!');
+                    deleteList();  // Remove a lista da interface
+                } else {
+                    alert('Erro ao excluir a lista.');
+                }
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                alert('Erro ao excluir a lista.');
+            });
+        }
+
+
+
+
+        function createCircles() {
+            const container = document.getElementById('circle');
+            container.innerHTML = ''; //apaga os circulos existentes
+
+            const circleSize = 60; //tamanho dos círculos (px)
+            const gap = 10; //espaço entre os circulos
+            const containerWidth = window.innerWidth; //largura da tela
+            const circlesCount = Math.floor(containerWidth / (circleSize + gap)); //calcula a quantidade de circulos
+
+            for (let i = 0; i < circlesCount; i++) {
+                const circle = document.createElement('div');
+                circle.className = 'circle';
+                container.appendChild(circle); //adiciona o círculo
+            }
+        }
+
+        createCircles();
+
+        //atualiza a quantidade de círculos
+        window.addEventListener('resize', createCircles);
+
+
+
+
+        // Inicialmente, oculta o ícone de limpar se não houver itens
+        window.onload = toggleDeleteListButton;
+    </script>
+
+    <!-- Adicionar JS do Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

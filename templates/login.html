@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="/static/css/login.css" rel="stylesheet">
+    <title>Login Formulário</title>
+</head>
+<body>
+    <div class="container-fluid d-flex flex-row vh-100 p-0">
+        <!-- Primeira div (à esquerda) -->
+        <div class="col-md-6 bg-gray d-flex flex-column justify-content-center align-items-center d-none d-md-flex">
+            <button onclick="window.location.href='/templates/landing_page.html';" id="myButton" class="btn position-absolute top-0 start-0 m-3 p-0 border-0 bg-transparent">
+                <img src="/static/image/login/voltar.png" alt="Voltar" class="img-fluid">
+            </button>
+            <h1>Agilize suas compras</h1>
+            <h2>Utilize de listas compartilhadas para ter uma melhor experiência nas compras</h2>
+            <img src="/static/image/login/prancheta.png" alt="prancheta">   
+        </div>      
+
+        <!-- Segunda div (à direita) -->
+        <div class="col-md-6 bg-white d-flex justify-content-center align-items-center position-relative">
+            <button onclick="window.location.href='/templates/home.html';" id="myButton" class="btn d-md-none position-absolute top-0 start-0 m-3 p-0 border-0 bg-transparent">
+                <img src="/static/image/login/voltar.png" alt="Voltar" class="img-fluid">
+            </button>
+            <form class="mx-auto">
+                <img src="/static/image/logo.png" alt="Logo">
+                <h4 class="text-center">Entrar na conta</h4>
+                <div class="mb-3 mt-5">
+                    <label for="exampleInputEmail1" class="form-label">Nome do usuário</label>
+                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Senha</label>
+                    <input type="password" class="form-control" id="exampleInputPassword1">
+                    <a class="form-text mt-3" href="/templates/recuperar_conta.html">Esqueci a Senha</a> <br>
+                    <a class="form-text mt-3" href="/templates/criar_conta.html">Criar conta</a>
+                </div>
+                <button type="submit" class="btn btn-primary mt-5">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>
