@@ -10,6 +10,25 @@
     width: 30%;
 }
 
+#myButton {
+    display: inline-block;
+    border: none;
+    background-color: transparent; /* Remove fundo */
+    padding: 0; /* Remove o padding para encaixar a imagem */
+    cursor: pointer; /* Cursor em forma de mão para interação */
+}
+
+#myButton img {
+    transition: transform 0.3s ease, opacity 0.3s ease; /* Transições suaves */
+    opacity: 1;
+}
+
+#myButton:hover img {
+    transform: scale(1.1); /* Aumenta um pouco o tamanho da imagem */
+    opacity: 0.8; /* Reduz a opacidade da imagem no hover */
+}
+
+
 .lupa-x{
     position: absolute;
     transform: translate(-50%, -50%);
@@ -46,6 +65,7 @@ h2{
     right: 50%;
     width: 40%;
 }
+
 
 /* Responsividade para dispositivos móveis */
 @media (max-width: 768px) {
