@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Comapatible" content="IE=edge">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HOME</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
@@ -12,33 +12,38 @@
 <body>
     <div class="container-fluid text-center">
         <h1>Bem-vindo(a) ao Listify</h1>
-
         <h2>Crie sua primeira lista de compras em segundos <br> e compartilhe com quem quiser</h2>
 
         <div class="caixa-pesquisa mx-auto">
             <form action="/" method="POST">
-                <input type="text" name="search_text" class="texto-pesquisa form-control" placeholder="Pesquisar lista por ID">
+                <input type="text" name="search_text" class="texto-pesquisa form-control" placeholder="Pesquisar lista por ID" aria-label="Pesquisar lista por ID">
                 <button type="submit" class="botao-pesquisa">
-                    <img class="lupa-pesquisa" src="/static/image/home/Search.png" alt="lupa-pesquisa">
+                    <img class="lupa-pesquisa" src="/static/image/home/Search.png" alt="Pesquisar">
                 </button>
             </form>
         </div>
 
         <div class="row bloco-opcoes mx-auto">
             <div class="col-md-6 col-12 acoes">
-                <form action="/usuario" method="POST">
-                    <button type="submit" class="botao-pesquisa">
-                        <img class="logo-user" src="/static/image/home/logo-user.png" alt="Usuário">
-                        <h3>Usuário</h3>
-                        <p>Alteração e visualização <br> dos dados pessoais</p>
-                    </button>
-                </form>
+                <button type="button" class="botao-pesquisa" id="userButton">
+                    <img class="logo-user" src="/static/image/home/logo-user.png" alt="Usuário">
+                    <h3>Usuário</h3>
+                    <p>Alteração e visualização <br> dos dados pessoais</p>
+                </button>
+                <dialog id="userModal">
+                    <button id="button-close">X</button>
+                    <div class="linha-vermelha"></div>
+                    <h3>Informações do Usuário</h3>
+                    <div id="userInfoContainer" class="user-info">
+                        <h3>Carregando dados...</h3>
+                    </div>
+                    <button id="alterar-dados" class="botao-salvar">Salvar</button>
+                </dialog>                       
             </div>
             <div class="col-md-6 col-12 acoes">
-                <!-- Modifiquei a action para "/criar_lista" -->
                 <form action="/criar_lista" method="POST">
                     <button type="submit" class="botao-pesquisa">
-                        <img class="logo-list" src="/static/image/home/logo-list.png" alt="Lista">
+                        <img class="logo-list" src="/static/image/home/logo-list.png" alt="Nova Lista">
                         <h3>Nova Lista</h3>
                         <p>Criação de novas listas</p>
                     </button>
@@ -51,12 +56,64 @@
         </div>
 
         <div class="img-fundo">
-            <img class="cor" src="/static/image/home/corzinha.png" alt="fundo-colorido">
-            <img class="mulher" src="/static/image/home/mulher.png" alt="mulher-comprando">
+            <img class="cor" src="/static/image/home/corzinha.png" alt="Fundo Colorido">
+            <img class="mulher" src="/static/image/home/mulher.png" alt="Mulher Comprando">
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-LtrjvnR4Twt/qOuYxFPrWyZ4Ro4yW4QxdUJWvBRRlOvmzJBp1xYbi7c8R9VVK8Sk" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha384-ZvpUoO/+PpkrnF4ZtFLh+6EQz8csnTMS2l8x/7OrV6ph3lvSRj9A1jzW9J/6W33w" crossorigin="anonymous"></script>
+    
+    <script>
+        const button = document.querySelector("#userButton");
+        const button_close = document.querySelector("#button-close");
+        const modal = document.querySelector("#userModal");
+        const userInfo = document.querySelector("#userInfoContainer");
+
+        function fetchUserData() {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve({
+                        name: "João",
+                        surname: "Silva",
+                        email: "joao.silva@email.com",
+                        password: "****************"
+                    });
+                }, 1000);
+            });
+        }
+
+        function displayUserData(userData) {
+    userInfo.innerHTML = `
+        <div class="linha-caderno"></div>
+        <div class="conteudo">
+            <p><strong>Primeiro Nome:</strong> ${userData.name}</p>
+        </div>
+        <div class="linha-caderno"></div>
+        <div class="conteudo">
+            <p><strong>Sobrenome:</strong> ${userData.surname}</p>
+        </div>
+        <div class="linha-caderno"></div>
+        <div class="conteudo">
+            <p><strong>e-mail:</strong> ${userData.email}</p>
+        </div>
+        <div class="linha-caderno"></div>
+        <div class="conteudo">
+            <p><strong>Senha:</strong> ${userData.password}</p>
+        </div>
+        <div class="linha-caderno"></div>
+    `;
+}
+
+        button.onclick = function () {
+            modal.showModal();
+            fetchUserData().then(displayUserData);
+        };
+
+        button_close.onclick = function () {
+            event.stopPropagation();
+            modal.close();
+        };
+    </script>
 </body>
 </html>
