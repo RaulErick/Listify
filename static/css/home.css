@@ -205,6 +205,146 @@ input:-ms-autofill {
     color: #ffffff !important;
 }
 
+dialog {
+    position: relative; /* Certifique-se de que o dialog tem posição relativa */
+    overflow: hidden;
+    max-width: none;
+    width: 35%;
+    height: 50%;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    background-color: #ffffff;
+    color: #000000;
+    transition: opacity 0.3s ease, transform 0.3s ease; 
+    opacity: 0; 
+    transform: translateY(-20px); 
+}
+
+/* Ao abrir o modal, ajuste a opacidade e a transformação */
+dialog[open] {
+    opacity: 1; /* Torna visível */
+    transform: translateY(0); /* Restaura a posição */
+}
+
+/* Estilo do backdrop do modal */
+dialog::backdrop {
+    background-color: rgba(112, 110, 110, 0.5); /* Torna o fundo mais escuro */
+}
+
+dialog h3, dialog p {
+    color: #000000; 
+}
+
+dialog h3 {
+    margin-bottom: 9%; /* Espaçamento abaixo do título */
+}
+
+dialog p {
+    text-align: left; /* Alinha o texto dos parágrafos à esquerda */
+    margin-left: 10%;
+    margin: 0; /* Remove margens padrão */
+    font-size: 18px; /* Aumenta o tamanho da fonte */
+    line-height: 2.5; /* Aumenta o espaçamento entre as linhas */
+    font-family: Arial, sans-serif; /* Define a fonte do parágrafo */
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column; /* Permite que os elementos sejam empilhados verticalmente */
+    justify-content: flex-end; /* Mantém o alinhamento ao topo */
+    margin: 10%; /* Espaçamento vertical entre os parágrafos */
+    padding: 0; /* Adiciona padding ao redor */
+    position: relative;
+}
+
+
+/* Estilo do botão de fechar */
+#button-close {
+    position: absolute; /* Posiciona o botão em relação ao modal */
+    top: 10px; /* Distância do topo */
+    right: 10px; /* Distância da direita */
+    background: none; /* Remove fundo */
+    border: none; /* Remove borda */
+    color: #000; /* Cor do texto */
+    font-size: 20px; /* Tamanho do texto */
+    cursor: pointer; /* Muda o cursor para ponteiro ao passar o mouse */
+    padding: 0; /* Remove padding */
+    margin: 0; /* Remove margin */
+    width: auto; /* Largura automática para se ajustar ao conteúdo */
+    height: auto; /* Altura automática para se ajustar ao conteúdo */
+    line-height: 1; /* Altura da linha para centralizar o "X" verticalmente */
+    z-index: 20; /* Garante que o botão fique acima de outros elementos */
+}
+
+
+#userModal {
+    position: relative; /* Para permitir o posicionamento absoluto do botão de fechar */
+    width: 80%; /* Ajuste o tamanho do modal conforme necessário */
+    max-width: 400px; /* Limite a largura máxima */
+    padding: 2px; /* Espaçamento interno */
+    box-sizing: border-box; /* Garante que o padding não afete a largura total */
+
+}
+
+.linha-vermelha {
+    position: absolute;
+    top: 0;
+    left: 3%;
+    width: 3px; /* Largura da linha */
+    height: 200%; /* Altura total do modal */
+    background-color: red; /* Cor da linha */
+    border-top-left-radius: 10px; /* Arredondamento no canto superior esquerdo */
+    border-bottom-left-radius: 10px; /* Arredondamento no canto inferior esquerdo */
+}
+
+.linha-caderno {
+    position: relative;
+    margin-left: -50%;
+    margin-right: 0;
+    width: 200%; /* Largura da linha */
+    height: 2px; /* Altura da linha */
+    background-color: rgb(0, 0, 0); /* Cor da linha */
+    margin-bottom: 1%; /* Espaço entre as linhas */
+    z-index: 100;
+    box-sizing: border-box; /* Inclui padding e margens no cálculo da largura */
+}
+
+.linha-caderno:last-of-type {
+    margin-bottom: 0; /* Remova a margem inferior da última linha */
+}
+
+
+.botao-salvar {
+    padding: 1% 6%; /* Diminuindo o padding */
+    font-size: 16px; /* Diminuindo o tamanho da fonte */
+    min-height: 24px; /* Definindo uma altura mínima menor */
+    max-height: 30px; /* Limitando a altura máxima */
+    line-height: 1; /* Ajustando a altura da linha */
+    max-width: 40%;
+    background: #dc886c !important; 
+    color: rgb(255, 255, 255); 
+    border-radius: 12px; /* Arredonda as bordas */
+    cursor: pointer;
+    transition: background-color 0.3s; /* Adiciona uma transição suave para a cor de fundo */
+    align-items: center;
+    
+}
+
+button.botao-salvar {
+    /* outras propriedades */
+    display: block; /* Faz o botão ser tratado como um bloco */
+    margin: 0 auto; /* Aplica margem automática nas laterais para centralizar */
+    margin-top: -15px;
+}
+
+
+/* Estilo do botão ao passar o mouse */
+.botao-salvar:hover {
+    background-color: #744b3d  !important; /* Cor do botão ao passar o mouse */
+}
+
 
 /* Media Queries para telas menores */
 @media (max-width: 768px) {
@@ -255,6 +395,15 @@ input:-ms-autofill {
         border-right: 2px solid #ffffff; /* Garantir que a borda apareça na versão mobile */
         padding-right: 0; /* Remover o padding à direita, se necessário */
         border-bottom: none; /* Remover qualquer borda inferior, se aplicável */
+    }
+
+    .botao-salvar {
+        padding: 6px 10px; /* Diminuir o espaçamento em telas menores */
+        font-size: 12px; /* Diminuir o tamanho da fonte */
+    }
+
+    dialog {
+        max-width: 90%; /* Permitir que o modal use mais largura em telas pequenas */
     }
 
 }
