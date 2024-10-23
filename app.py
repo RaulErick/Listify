@@ -4,13 +4,21 @@ from db_connection import create_connection, close_connection
 
 app = Flask(__name__)
 
-# Rota para a página inicial (home.html)
-@app.route("/", methods=["GET", "POST"])
+# Nova rota para a landing page
+@app.route("/", methods=["GET"])
+def landing_page():
+    return render_template("landing_page.html")
+
+@app.route("/home", methods=["GET", "POST"])
 def home():
     if request.method == "POST":
         id_lista = request.form.get("search_text")
-        return redirect(url_for("lista", id_lista=id_lista))
+        if id_lista:  # Verifica se o campo não está vazio
+            return redirect(url_for("lista", id_lista=id_lista))
+        else:
+            return render_template("home.html", error="Por favor, insira um ID de lista válido.")
     return render_template("home.html")
+
 
 # Função para gerar um ID de lista único (6 dígitos)
 def gerar_id_unico():
@@ -32,8 +40,6 @@ def gerar_id_unico():
     close_connection(conn)
 
     return id_lista_aleatorio
-
-
 
 # Rota para criar uma nova lista
 @app.route("/criar_lista", methods=["POST"])
@@ -92,7 +98,6 @@ def atualizar_nome_lista(id_lista):
     return "Nome atualizado com sucesso", 200
 
 # CRUD para itens
-
 @app.route('/lista/<int:lista_id>/item', methods=['POST'])
 def adicionar_item(lista_id):
     nome_item = request.form.get('nome_item')
@@ -151,8 +156,6 @@ def excluir_lista(id_lista):
 
     return jsonify({'status': 'success', 'message': f'Lista com ID {id_lista} excluída com sucesso!'}), 200
 
-
-
 @app.route('/lista/<int:lista_id>/item/<int:item_id>', methods=['PUT'])
 def atualizar_item(lista_id, item_id):
     nome_item = request.form.get('nome_item')
@@ -168,8 +171,6 @@ def atualizar_item(lista_id, item_id):
     close_connection(conn)
 
     return jsonify({'status': 'success'}), 200
-
-
 
 @app.route('/lista/<int:lista_id>/item/<int:item_id>', methods=['DELETE'])
 def excluir_item(lista_id, item_id):

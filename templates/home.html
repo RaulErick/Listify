@@ -15,13 +15,14 @@
         <h2>Crie sua primeira lista de compras em segundos <br> e compartilhe com quem quiser</h2>
 
         <div class="caixa-pesquisa mx-auto">
-            <form action="/" method="POST">
-                <input type="text" name="search_text" class="texto-pesquisa form-control" placeholder="Pesquisar lista por ID" aria-label="Pesquisar lista por ID">
+            <form action="/home" method="POST">
+                <input type="text" name="search_text" class="texto-pesquisa form-control" placeholder="Pesquisar lista por ID" aria-label="Pesquisar lista por ID" required>
                 <button type="submit" class="botao-pesquisa">
                     <img class="lupa-pesquisa" src="/static/image/home/Search.png" alt="Pesquisar">
                 </button>
             </form>
         </div>
+        
 
         <div class="row bloco-opcoes mx-auto">
             <div class="col-md-6 col-12 acoes">

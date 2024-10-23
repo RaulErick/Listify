@@ -280,12 +280,11 @@ dialog p {
 
 
 #userModal {
-    position: relative; /* Para permitir o posicionamento absoluto do botão de fechar */
-    width: 80%; /* Ajuste o tamanho do modal conforme necessário */
-    max-width: 400px; /* Limite a largura máxima */
-    padding: 2px; /* Espaçamento interno */
-    box-sizing: border-box; /* Garante que o padding não afete a largura total */
-
+    position: relative;
+    width: 41vw;
+    height: 59vh;
+    padding: 19px;
+    box-sizing: border-box;
 }
 
 .linha-vermelha {
