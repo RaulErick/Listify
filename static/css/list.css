@@ -24,13 +24,12 @@ html, body {
     padding: 10px 0;
 }
 */
-
 .notebook-holes {
     display: flex;
-    justify-content: center;
-    gap: 30px; /*espaço entre os círculos*/
+    justify-content: space-between;
+    gap: 30px;
     align-items: center;
-    padding: 10px 10px
+    padding: 10px 10px;
 }
 
 
