@@ -5,10 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Não encontrado</title>
     <link rel="stylesheet" href="/static/css/not_found.css">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.png') }}" type="image/png">
 </head>
 <body>
     <div>
-        <button onclick="window.location.href='/templates/home.html';" id="myButton" class="btn position-absolute top-2 start-2 m-3 p-0 border-0 bg-transparent">
+        <button onclick="window.location.href='/home';" id="myButton" class="btn position-absolute top-2 start-2 m-3 p-0 border-0 bg-transparent">
             <img src="/static/image/not_found/voltar.png" alt="Voltar" class="img-fluid">
         </button>
     </div>
