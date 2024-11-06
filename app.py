@@ -1,25 +1,136 @@
 import random
-from flask import Flask, render_template, request, redirect, url_for, jsonify
+import hashlib
+from flask import (
+    Flask,
+    render_template,
+    request,
+    redirect,
+    url_for,
+    jsonify,
+    session,
+    flash,
+)
 from db_connection import create_connection, close_connection
 
 app = Flask(__name__)
+app.secret_key = "Shadow_4EVER"  # Necessário para gerenciar sessões de login
+
+
+# Função auxiliar para gerar o hash da senha
+def hash_password(password):
+    return hashlib.sha256(password.encode()).hexdigest()
+
+
+# Rota para exibir o formulário de criação de conta
+@app.route("/login/criar_conta", methods=["GET", "POST"])
+def criar_conta():
+    if request.method == "POST":
+        nome_usuario = request.form.get("nome")
+        sobrenome_usuario = request.form.get("sobrenome")
+        email = request.form.get("email")
+        senha = request.form.get("senha")
+        confirmar_senha = request.form.get("confirmar_senha")
+
+        # Verificar se as senhas coincidem
+        if senha != confirmar_senha:
+            flash("As senhas não coincidem.")
+            return redirect(url_for("criar_conta"))
+
+        # Verificar se o e-mail já existe
+        conn = create_connection()
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM Usuario WHERE email = %s", (email,))
+        if cursor.fetchone():
+            flash("E-mail já registrado. Tente outro.")
+            cursor.close()
+            close_connection(conn)
+            return redirect(url_for("criar_conta"))
+
+        # Inserir o novo usuário no banco de dados
+        hashed_senha = hash_password(senha)
+        cursor.execute(
+            "INSERT INTO Usuario (Nome_Usuario, Sobrenome_Usuario, email, senha) VALUES (%s, %s, %s, %s)",
+            (nome_usuario, sobrenome_usuario, email, hashed_senha),
+        )
+        conn.commit()
+
+        cursor.close()
+        close_connection(conn)
+        flash("Conta criada com sucesso! Faça login.")
+        return redirect(url_for("login"))
+
+    return render_template("criar_conta.html")
+
+
+# Rota para realizar o login do usuário
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        email = request.form.get("email")
+        senha = request.form.get("senha")
+
+        # Debug: Imprimir dados de entrada
+        print("Tentando login com:", email, senha)
+
+        # Estabelecer conexão com o banco de dados
+        conn = create_connection()
+        if conn is None:
+            flash("Erro ao conectar ao banco de dados.")
+            return redirect(url_for("login"))
+
+        cursor = conn.cursor(dictionary=True)
+
+        # Verificar se o email existe no banco de dados
+        cursor.execute("SELECT * FROM Usuario WHERE email = %s", (email,))
+        usuario = cursor.fetchone()
+
+        # Debug: Verificar se o usuário foi encontrado
+        print("Usuário encontrado:", usuario)
+
+        cursor.close()
+        close_connection(conn)
+
+        # Se o usuário existir, verificar a senha
+        if usuario:
+            senha_armazenada = usuario["senha"]
+            senha_hash = hash_password(senha)
+
+            # Debug: Imprimir hashes para comparação
+            print("Hash armazenado:", senha_armazenada)
+            print("Hash calculado:", senha_hash)
+
+            if senha_armazenada == senha_hash:
+                # Login bem-sucedido
+                session["usuario_id"] = usuario["Id_Usuario"]
+                session["nome"] = usuario["Nome_Usuario"]
+                flash("Login realizado com sucesso!")
+                return redirect(url_for("home"))
+            else:
+                # Senha incorreta
+                flash("Senha incorreta. Tente novamente.")
+                print("Senha incorreta.")  # Debug: Senha incorreta
+        else:
+            # Email não encontrado
+            flash("E-mail não encontrado. Verifique o e-mail digitado.")
+            print("E-mail não encontrado.")  # Debug: E-mail não encontrado
+
+        return redirect(url_for("login"))
+
+    return render_template("login.html")
+
+
+# Rota para logout
+@app.route("/logout")
+def logout():
+    session.clear()
+    flash("Você saiu da sua conta.")
+    return redirect(url_for("landing_page"))
 
 
 # Rota para a página inicial (landing page)
 @app.route("/", methods=["GET"])
 def landing_page():
     return render_template("landing_page.html")
-
-
-# Rota para a página de login
-@app.route("/login", methods=["GET"])
-def login():
-    return render_template("login.html")
-
-
-@app.route("/login/criar_conta", methods=["GET"])
-def criar_conta():
-    return render_template("criar_conta.html")
 
 
 @app.route("/login/recuperar_conta", methods=["GET"])

@@ -15,7 +15,7 @@
     <div class="container-fluid d-flex flex-row vh-100 p-0">
         <!-- Primeira div (à esquerda) -->
         <div class="col-md-6 bg-gray d-flex flex-column justify-content-center align-items-center d-none d-md-flex">
-            <button onclick="window.location.href='/templates/landing_page.html';" id="myButton" class="btn position-absolute top-0 start-0 m-3 p-0 border-0 bg-transparent">
+            <button onclick="window.location.href='/';" id="myButton" class="btn position-absolute top-0 start-0 m-3 p-0 border-0 bg-transparent">
                 <img src="/static/image/login/voltar.png" alt="Voltar" class="img-fluid">
             </button>
             <h1>Agilize suas compras</h1>
@@ -28,21 +28,22 @@
             <button onclick="window.location.href='/templates/landing_page.html';" id="myButton" class="btn d-md-none position-absolute top-0 start-0 m-3 p-0 border-0 bg-transparent">
                 <img src="/static/image/login/voltar.png" alt="Voltar" class="img-fluid">
             </button>
-            <form class="mx-auto">
+            <form action="/login" method="POST" class="mx-auto">
                 <img src="/static/image/logo.png" alt="Logo">
                 <h4 class="text-center">Entrar na conta</h4>
                 <div class="mb-3 mt-5">
-                    <label for="exampleInputEmail1" class="form-label">Nome do usuário</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                    <label for="exampleInputEmail1" class="form-label">Email do usuário</label>
+                    <input type="email" class="form-control" id="exampleInputEmail1" name="email" aria-describedby="emailHelp" required>
                 </div>
                 <div class="mb-3">
                     <label for="exampleInputPassword1" class="form-label">Senha</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1">
-                    <a class="form-text mt-3" href="/templates/recuperar_conta.html">Esqueci a Senha</a> <br>
-                    <a class="form-text mt-3" href="/templates/criar_conta.html">Criar conta</a>
+                    <input type="password" class="form-control" id="exampleInputPassword1" name="senha" required>
+                    <a class="form-text mt-3" href="/login/recuperar_conta">Esqueci a Senha</a> <br>
+                    <a class="form-text mt-3" href="/login/criar_conta">Criar conta</a>
                 </div>
-                <button onclick="window.location.href='/templates/home.html';" type="submit" class="btn btn-primary mt-5">Login</button>
+                <button type="submit" class="btn btn-primary mt-5">Login</button>
             </form>
+            
         </div>
     </div>
 
