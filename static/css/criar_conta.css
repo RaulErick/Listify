@@ -38,6 +38,7 @@ body {
     align-items: center;
     margin: 0; 
     background-image: url('/static/image/criar_conta/papel_velho.png'); /* URL da sua imagem de fundo */
+    background-color: currentcolor;
     background-size: cover; /* Ajusta a imagem para cobrir toda a tela */
     background-position: center; /* Centraliza a imagem */
 }

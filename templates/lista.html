@@ -88,7 +88,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                        <button type="button" class="btn btn-primary">Salvar</button>
+                        <button type="button" class="btn btn-primary" onclick="salvarNota()">Salvar</button>
                     </div>
                 </div>
             </div>
@@ -252,6 +252,127 @@ function atualizarNomeLista() {
                 console.error('Erro ao excluir lista:', error);
             });
         }
+
+        let itemIdAtual = null;
+
+        // Função para editar as anotações dos itens
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                const itemText = event.target.value.trim();
+                if (itemText !== '') {
+                    const listId = "{{ lista.idlista }}";
+    
+                    fetch(`/lista/${listId}/item`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: `nome_item=${encodeURIComponent(itemText)}`
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'success') {
+                            addItem(itemText, data.item_id);
+                            event.target.value = '';
+                        } else {
+                            console.error('Falha ao adicionar item:', data);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Erro ao adicionar item:', error);
+                    });
+                }
+            }
+        }
+    
+        function addItem(itemText, itemId) {
+            const shoppingList = document.getElementById('shoppingList');
+    
+            const newItem = document.createElement('div');
+            newItem.className = 'item-row';
+            newItem.setAttribute('data-item-id', itemId); // Adiciona um atributo para o ID do item
+    
+            newItem.innerHTML = `
+                <span class="delete-icon" onclick="removeItem(this)">✖</span>
+                <input type="checkbox" />
+                <span class="quantity">${itemText}</span>
+                <span class="price">
+                    <i class="bi bi-pencil-square" style="cursor: pointer;" data-toggle="modal" data-target="#priceModal" onclick="editarNota(${itemId})"></i>
+                </span>
+                <span class="nota" id="nota-${itemId}"></span> <!-- Exibir a nota aqui -->
+            `;
+    
+            shoppingList.appendChild(newItem);
+        }
+    
+        function removeItem(element) {
+            const itemRow = element.parentElement;
+            const itemId = itemRow.getAttribute('data-item-id');
+            const listId = "{{ lista.idlista }}"; // Obtém o ID da lista
+    
+            fetch(`/lista/${listId}/item/${itemId}`, {
+                method: 'DELETE'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    itemRow.remove();
+                } else {
+                    console.error('Erro ao remover item:', data);
+                }
+            })
+            .catch(error => {
+                console.error('Erro ao remover item:', error);
+            });
+        }
+    
+        // Função para obter os itens da lista ao carregar a página
+        document.addEventListener('DOMContentLoaded', function() {
+            const listId = "{{ lista.idlista }}";
+            fetch(`/lista/${listId}/item`)
+                .then(response => response.json())
+                .then(data => {
+                    data.forEach(item => {
+                        addItem(item.Nome_Item, item.idItens);
+                        document.getElementById(`nota-${item.idItens}`).innerText = item.Anotacoes_item || "Sem nota"; // Exibe a anotação
+                    });
+                });
+        });
+
+        // Função para editar a nota de um item
+        function editarNota(itemId) {
+            itemIdAtual = itemId;
+            const notaElemento = document.getElementById(`nota-${itemId}`);
+            const notaTexto = notaElemento.innerText === "Sem nota" ? "" : notaElemento.innerText;
+            document.getElementById("itemPrice").value = notaTexto;
+        }
+
+        // Função para salvar a nota editada
+        function salvarNota() {
+            const notaTexto = document.getElementById("itemPrice").value.trim();
+            const listId = "{{ lista.idlista }}";
+
+            if (itemIdAtual) {
+                fetch(`/lista/${listId}/item/${itemIdAtual}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: `anotacoes_item=${encodeURIComponent(notaTexto)}`
+                })
+                .then(response => {
+                    if (response.ok) {
+                        document.getElementById(`nota-${itemIdAtual}`).innerText = notaTexto;
+                    } else {
+                        console.error('Falha ao salvar nota.');
+                    }
+                })
+                .catch(error => console.error('Erro ao salvar nota:', error));
+            }
+        }
+
+
+
 
         function downloadPDF() {
     // Criar o cabeçalho do PDF
