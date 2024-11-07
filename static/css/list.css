@@ -119,6 +119,7 @@ a.btn-link:hover i {
 .price {
     font-size: 18px;
     border: none;
+    margin-left: 10px;
 }
 
 /* Adiciona estilo ao ícone de exclusão */
