@@ -1,5 +1,6 @@
 import random
 import hashlib
+import smtplib
 from flask import (
     Flask,
     render_template,
@@ -11,9 +12,160 @@ from flask import (
     flash,
 )
 from db_connection import create_connection, close_connection
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 
 app = Flask(__name__)
 app.secret_key = "Shadow_4EVER"  # Necessário para gerenciar sessões de login
+
+
+# Rota para obter dados do usuário
+@app.route("/obter_usuario", methods=["GET"])
+def obter_usuario():
+    if "usuario_id" in session:
+        usuario_id = session["usuario_id"]
+
+        conn = create_connection()
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute(
+            "SELECT Nome_Usuario AS name, Sobrenome_Usuario AS surname, email FROM Usuario WHERE Id_Usuario = %s",
+            (usuario_id,),
+        )
+        usuario = cursor.fetchone()
+
+        cursor.close()
+        close_connection(conn)
+
+        if usuario:
+            return jsonify(usuario)
+        else:
+            return jsonify({"error": "Usuário não encontrado"}), 404
+    return jsonify({"error": "Usuário não autenticado"}), 401
+
+
+# Rota para atualizar dados do usuário
+@app.route("/atualizar_usuario", methods=["POST"])
+def atualizar_usuario():
+    if "usuario_id" in session:
+        usuario_id = session["usuario_id"]
+        nome = request.form.get("name")
+        sobrenome = request.form.get("surname")
+
+        conn = create_connection()
+        cursor = conn.cursor()
+        cursor.execute(
+            "UPDATE Usuario SET Nome_Usuario = %s, Sobrenome_Usuario = %s WHERE Id_Usuario = %s",
+            (nome, sobrenome, usuario_id),
+        )
+        conn.commit()
+        cursor.close()
+        close_connection(conn)
+
+        return jsonify({"status": "success"})
+    return jsonify({"status": "error", "message": "Usuário não autenticado"}), 401
+
+
+# Rota para a página de recuperação de conta
+@app.route("/recuperar-conta", methods=["GET", "POST"])
+def recuperar_conta():
+    if request.method == "POST":
+        # Obtém o e-mail do formulário de recuperação
+        email = request.form.get("email")
+
+        # Conectar ao banco de dados e verificar se o e-mail existe
+        conn = create_connection()
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute("SELECT * FROM Usuario WHERE email = %s", (email,))
+        usuario = cursor.fetchone()
+
+        cursor.close()
+        close_connection(conn)
+
+        if usuario:
+            # Se o e-mail existir, envia o e-mail de recuperação
+            enviar_email_recuperacao(email)
+            flash("E-mail de recuperação enviado! Verifique sua caixa de entrada.")
+        else:
+            # Caso o e-mail não seja encontrado
+            flash("E-mail não encontrado. Verifique o e-mail digitado.")
+
+        return redirect(url_for("recuperar_conta"))
+
+    # Renderiza o formulário de recuperação de conta
+    return render_template("recuperar_conta.html")
+
+
+def enviar_email_recuperacao(destinatario_email):
+    remetente_email = "listifylista@gmail.com"
+    senha = "ehxx scuz msdr ibqp"
+
+    # Configurar o conteúdo do e-mail
+    msg = MIMEMultipart()
+    msg["From"] = remetente_email
+    msg["To"] = destinatario_email
+    msg["Subject"] = "Recuperação de Conta"
+    corpo = (
+        f"Olá, \n\n"
+        "Recebemos uma solicitação para redefinir sua senha. Se você fez essa solicitação, "
+        f"clique no link abaixo para redefinir sua senha:\n\n"
+        f"http://127.0.0.1:5000/nova_senha?email={destinatario_email}\n\n"
+        "Se você não fez essa solicitação, ignore este e-mail.\n\n"
+        "Atenciosamente,\nEquipe de Suporte"
+    )
+    msg.attach(MIMEText(corpo, "plain"))
+
+    try:
+        # Conectar ao servidor SMTP do Gmail
+        servidor = smtplib.SMTP("smtp.gmail.com", 587)
+        servidor.starttls()  # Segurança TLS
+        servidor.login(remetente_email, senha)
+        servidor.sendmail(remetente_email, destinatario_email, msg.as_string())
+        servidor.quit()
+        print("E-mail enviado com sucesso!")
+    except Exception as e:
+        print(f"Erro ao enviar e-mail: {e}")
+
+
+@app.route("/nova_senha", methods=["GET"])
+def nova_senha():
+    email = request.args.get("email")
+    if not email:
+        flash("Email inválido ou não fornecido.")
+        return redirect(url_for("recuperar_conta"))
+    return render_template("nova_senha.html", email=email)
+
+
+@app.route("/mudar-senha", methods=["POST"])
+def mudar_senha():
+    email = request.args.get("email")  # Obtém o e-mail do usuário a partir da URL
+    nova_senha = request.form.get("password")
+    confirmar_senha = request.form.get("confirm_password")
+
+    # Verifica se o e-mail foi fornecido
+    if not email:
+        flash("Email inválido ou não fornecido.")
+        return redirect(url_for("recuperar_conta"))
+
+    # Verifica se as senhas coincidem
+    if nova_senha != confirmar_senha:
+        flash("As senhas não coincidem. Tente novamente.")
+        return redirect(url_for("nova_senha", email=email))
+
+    # Gera o hash da nova senha
+    hashed_senha = hash_password(nova_senha)
+
+    # Atualiza a senha no banco de dados
+    conn = create_connection()
+    cursor = conn.cursor()
+    cursor.execute(
+        "UPDATE Usuario SET senha = %s WHERE email = %s", (hashed_senha, email)
+    )
+    conn.commit()
+    cursor.close()
+    close_connection(conn)
+
+    flash("Senha alterada com sucesso! Faça login com sua nova senha.")
+    return redirect(url_for("login"))
 
 
 # Função auxiliar para gerar o hash da senha
@@ -134,7 +286,7 @@ def landing_page():
 
 
 @app.route("/login/recuperar_conta", methods=["GET"])
-def recuperar_conta():
+def mostrar_recuperar_conta():
     return render_template("recuperar_conta.html")
 
 
