@@ -7,9 +7,7 @@
     <title>HOME</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/home.css">
-
     <link rel="icon" href="{{ url_for('static', filename='favicon.png') }}" type="image/png">
-    
 </head>
 
 <body>
@@ -25,7 +23,6 @@
                 </button>
             </form>
         </div>
-        
 
         <div class="row bloco-opcoes mx-auto">
             <div class="col-md-6 col-12 acoes">
@@ -65,8 +62,8 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-LtrjvnR4Twt/qOuYxFPrWyZ4Ro4yW4QxdUJWvBRRlOvmzJBp1xYbi7c8R9VVK8Sk" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha384-ZvpUoO/+PpkrnF4ZtFLh+6EQz8csnTMS2l8x/7OrV6ph3lvSRj9A1jzW9J/6W33w" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
     
     <script>
         const button = document.querySelector("#userButton");
@@ -74,49 +71,72 @@
         const modal = document.querySelector("#userModal");
         const userInfo = document.querySelector("#userInfoContainer");
 
+        // Função para buscar dados do usuário no backend
         function fetchUserData() {
-            return new Promise((resolve) => {
-                setTimeout(() => {
-                    resolve({
-                        name: "João",
-                        surname: "Silva",
-                        email: "joao.silva@email.com",
-                        password: "****************"
-                    });
-                }, 1000);
+            return $.ajax({
+                url: '/obter_usuario',  // Defina essa rota no backend para obter os dados do usuário
+                method: 'GET'
             });
         }
 
+        // Função para exibir os dados do usuário com campos editáveis para nome e sobrenome
         function displayUserData(userData) {
-    userInfo.innerHTML = `
-        <div class="linha-caderno"></div>
-        <div class="conteudo">
-            <p><strong>Primeiro Nome:</strong> ${userData.name}</p>
-        </div>
-        <div class="linha-caderno"></div>
-        <div class="conteudo">
-            <p><strong>Sobrenome:</strong> ${userData.surname}</p>
-        </div>
-        <div class="linha-caderno"></div>
-        <div class="conteudo">
-            <p><strong>e-mail:</strong> ${userData.email}</p>
-        </div>
-        <div class="linha-caderno"></div>
-        <div class="conteudo">
-            <p><strong>Senha:</strong> ${userData.password}</p>
-        </div>
-        <div class="linha-caderno"></div>
-    `;
-}
+            userInfo.innerHTML = `
+                <div class="linha-caderno"></div>
+                <div class="conteudo">
+                    <p><strong>Primeiro Nome:</strong></p>
+                    <input class="form-control" type="text" id="firstName" value="${userData.name}">
+                </div>
+                <div class="linha-caderno"></div>
+                <div class="conteudo">
+                    <p><strong>Sobrenome:</strong></p>
+                    <input class="form-control" type="text" id="lastName" value="${userData.surname}">
+                </div>
+                <div class="linha-caderno"></div>
+                <div class="conteudo">
+                    <p><strong>Email:</strong> ${userData.email}</p>
+                </div>
+                <div class="linha-caderno"></div>
+            `;
+        }
 
+        // Função para salvar os dados alterados
+        function saveUserData() {
+            const firstName = document.getElementById("firstName").value;
+            const lastName = document.getElementById("lastName").value;
+
+            $.ajax({
+                url: '/atualizar_usuario',  // Defina essa rota no backend para atualizar os dados
+                method: 'POST',
+                data: {
+                    name: firstName,
+                    surname: lastName
+                },
+                success: function(response) {
+                    alert("Dados atualizados com sucesso!");
+                    modal.close();
+                },
+                error: function(error) {
+                    alert("Erro ao atualizar os dados.");
+                }
+            });
+        }
+
+        // Exibe modal e carrega dados do usuário
         button.onclick = function () {
             modal.showModal();
             fetchUserData().then(displayUserData);
         };
 
+        // Fecha modal
         button_close.onclick = function () {
             event.stopPropagation();
             modal.close();
+        };
+
+        // Atualiza dados do usuário
+        document.getElementById("alterar-dados").onclick = function () {
+            saveUserData();
         };
     </script>
 </body>

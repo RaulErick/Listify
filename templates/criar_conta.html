@@ -14,7 +14,7 @@
                 <img src="/static/image/criar_conta/x.png" alt="Voltar" class="img-fluid">
             </button>
         </div>
-        <form action="#" class="form-text w-100">
+        <form action="/login/criar_conta" method="POST" class="form-text w-100">
             <div class="form-header ">
                 <div class="logo">
                     <img src="/static/image/logo.png" alt="logo" class="img-fluid mb-3">
@@ -25,11 +25,11 @@
                 <div class="input-group flex-column">
                     <div class="input-box mb-3">
                         <label for="firstName">Primeiro Nome</label>
-                        <input class="form-control" type="text" name="firstName" id="firstName" required>
+                        <input class="form-control" type="text" name="nome" id="firstName" required>
                     </div>
                     <div class="input-box mb-3">
                         <label for="lastName">Sobrenome</label>
-                        <input class="form-control" type="text" name="lastName" id="lastName" required>
+                        <input class="form-control" type="text" name="sobrenome" id="lastName" required>
                     </div>
                     <div class="input-box mb-3">
                         <label for="email">Email</label>
@@ -37,11 +37,11 @@
                     </div>
                     <div class="input-box mb-3">
                         <label for="password">Senha</label>
-                        <input class="form-control" type="password" name="password" id="password" required>
+                        <input class="form-control" type="password" name="senha" id="password" required>
                     </div>
                     <div class="input-box mb-3">
                         <label for="Confirmpassword">Confirmar Senha</label>
-                        <input class="form-control" type="password" name="Confirmpassword" id="Confirmpassword" required>
+                        <input class="form-control" type="password" name="confirmar_senha" id="Confirmpassword" required>
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary mt-3">Criar Conta</button>

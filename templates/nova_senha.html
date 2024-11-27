@@ -1,3 +1,4 @@
+<!-- nova_senha.html -->
 <!doctype html>
 <html lang="en">
 <head>
@@ -5,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="/static/css/recuperar_conta.css" rel="stylesheet">
-    <title>Recuperar Conta</title>
+    <title>Nova Senha</title>
 </head>
 <body>
     <div class="bg_1">
@@ -16,30 +17,33 @@
     </div>
     <div class="container d-flex flex-column justify-content-center align-items-center vh-80">
         <div>
-            <button onclick="window.location.href='/login';" id="myButton" class="btn position-absolute top-0 end-0 m-3 p-0 border-0 bg-transparent">
+            <button onclick="window.location.href='/login/recuperar_conta';" id="myButton" class="btn position-absolute top-0 end-0 m-3 p-0 border-0 bg-transparent">
                 <img src="/static/image/criar_conta/x.png" alt="Voltar" class="img-fluid">
             </button>
         </div>
 
-        <!-- Formulário de recuperação de conta -->
-        <form action="/recuperar-conta" method="POST" class="form-text w-100">
+        <!-- Formulário para redefinição de senha -->
+        <form action="{{ url_for('mudar_senha', email=email) }}" method="POST" class="form-text w-100">
             <div class="form-header">
                 <div class="logo">
                     <img src="/static/image/logo.png" alt="logo" class="img-fluid mb-3">
                 </div>
                 <div class="title">
-                    <h1>Recuperar Conta</h1>
+                    <h1>Nova Senha</h1>
                 </div>
                 <div class="input-group flex-column">
                     <div class="input-box mb-3">
-                        <label for="email">Email</label>
-                        <input class="form-control" type="email" name="email" id="email" required>
+                        <label for="password">Nova Senha</label>
+                        <input class="form-control" type="password" name="password" id="password" required>
+                    </div>
+                    <div class="input-box mb-3">
+                        <label for="confirm_password">Confirmar Nova Senha</label>
+                        <input class="form-control" type="password" name="confirm_password" id="confirm_password" required>
                     </div>
                 </div>
-                <button onclick="window.location.href='/templates/nova_senha.html';" type="submit" class="btn btn-primary mt-3">Enviar email de confirmação</button>
+                <button type="submit" class="btn btn-primary mt-3">Mudar Senha</button>
             </div>
         </form>
-
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
