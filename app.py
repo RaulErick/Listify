@@ -384,33 +384,35 @@ def atualizar_nome_lista(id_lista):
     return "Nome atualizado com sucesso", 200
 
 
-# CRUD para itens
 @app.route("/lista/<int:lista_id>/item", methods=["POST"])
 def adicionar_item(lista_id):
     nome_item = request.form.get("nome_item")
     anotacoes_item = request.form.get("anotacoes_item", "")
+    
+    # Verifica se o nome do item foi informado
+    if not nome_item:
+        return jsonify({"error": "Nome do item é obrigatório!"}), 400
 
     conn = create_connection()
     cursor = conn.cursor()
 
-    # Inserir o item na tabela Itens
-    cursor.execute(
-        "INSERT INTO Itens (Nome_Item, Anotacoes_item) VALUES (%s, %s)",
-        (nome_item, anotacoes_item),
-    )
-    item_id = cursor.lastrowid
+    # Inserir o item na tabela "itens", com a associação ao idLista
+    cursor.execute("INSERT INTO Itens (Nome_Item, Anotacoes_item, Lista_idLista) VALUES (%s, %s, %s)", (nome_item, anotacoes_item, lista_id))
+    item_id = cursor.lastrowid  # Obtém o id do item inserido
+    
+    # Associa o item à lista na tabela "Lista_has_Itens"
+    cursor.execute("INSERT INTO Lista_has_Itens (Lista_idLista, Itens_idItens) VALUES (%s, %s)", (lista_id, item_id))
 
-    # Inserir na tabela de associação
-    cursor.execute(
-        "INSERT INTO Lista_has_Itens (Lista_idLista, Itens_idItens) VALUES (%s, %s)",
-        (lista_id, item_id),
-    )
     conn.commit()
-
     cursor.close()
     close_connection(conn)
 
     return jsonify({"status": "success", "item_id": item_id}), 201
+
+
+
+
+
 
 
 @app.route("/lista/<int:lista_id>/item", methods=["GET"])
